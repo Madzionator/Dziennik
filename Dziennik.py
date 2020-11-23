@@ -1,32 +1,38 @@
+#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-import tkinter as tk
+import os
+from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker
 
-class Application:
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.title("Dziennik")
-        self.label_1 = tk.Label(self.root, text = "Przedmioty: ")
-        self.label_1.pack()
+if os.path.exists('test.db'):
+    os.remove('test.db')
+# tworzymy instancję klasy Engine do obsługi bazy
+baza = create_engine('sqlite:///test.db')  # ':memory:'
 
-        self.subject_list = tk.Listbox()
-        self.subject_list.pack()
+# klasa bazowa
+BazaModel = declarative_base()
 
-        for item in Data.subject_list:
-            self.subject_list.insert(0, item)
+class Lecture(BazaModel):
+    __tablename__ = 'przedmiot'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
 
-        self.root.mainloop()
+class Group(BazaModel):
+    __tablename__ = 'grupa'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
 
-class Subject(Data):
-    def __init__(self, name):
-        subject_name = name
+class LectureGroup(BazaModel):
+    __tablename__ = 'przedmiot_grupa'
+    id = Column(Integer, primary_key=True)
+    id_Lecture = Column(Integer, nullable=False)
+    id_Group = Column(Integer, nullable=False)
 
-class Group(Subject):
-    def __iniy__(self, name):
-        group_name = name
-
-class Student(Group):
-    def __init__(self, first, last):
-        first_name = first
-        last_name = last
-
-app = Application()
+class Student(BazaModel):
+    __tablename__ = 'student'
+    id = Column(Integer, primary_key=True)
+    FirstName = Column(String(100), nullable=False)
+    LastName = Column(String(100), nullable=False)
+    id_group = Column(Integer, nullable=False)
