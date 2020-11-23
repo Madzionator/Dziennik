@@ -14,7 +14,8 @@ baza = create_engine('sqlite:///baza.db')  # ':memory:'
 # klasa bazowa
 BazaModel = declarative_base()
 
-class Lecture(BazaModel):
+
+'''class Lecture(BazaModel):
     __tablename__ = 'Lectures'
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
@@ -37,7 +38,7 @@ class LectureGroup(BazaModel):
     lecturegroup = relationship("Lecture", back_populates="group")
 
     group_id = Column(Integer, ForeignKey('Groups.id'))
-    lecturegroup = relationship("Group", back_populates="lecture")
+    lecturegroup = relationship("Group", back_populates="lecture") '''
 
     #ponizej git
 
@@ -83,9 +84,9 @@ if not sesja.query(GradeCategory).count():
     sesja.add(GradeCategory(name='Test'))
 
 if not sesja.query(Grade).count():
-    sesja.add(Grade(value = 4, category_id = 3, student_id = 2))
-    sesja.add(Grade(value = 3, category_id = 2, student_id = 1))
-    sesja.add(Grade(value = 5, category_id = 2, student_id = 2))
+    sesja.add(Grade(value = 4, grade_category_id = 3, student_id = 2))
+    sesja.add(Grade(value = 3, grade_category_id = 2, student_id = 1))
+    sesja.add(Grade(value = 5, grade_category_id = 2, student_id = 2))
 
 #for student in sesja.query(Student).all():
 #    print(student.id, student.FirstName, student.LastName)
@@ -93,5 +94,5 @@ if not sesja.query(Grade).count():
 for dane in sesja.query(Grade.value, GradeCategory.name).join(GradeCategory, GradeCategory.id == Grade.grade_category_id).all():
     print (dane)
 
-#for dane in sesja.query(Grade.value, GradeCategory.name).join(GradeCategory, GradeCategory.id == Grade.category_id).join(Student, Student.id == Grade.student_id).all():
-#    print (dane)
+for dane in sesja.query(Grade.value, GradeCategory.name, Student.first_name).join(GradeCategory, GradeCategory.id == Grade.grade_category_id).join(Student, Student.id == Grade.student_id).all():
+    print (dane)
