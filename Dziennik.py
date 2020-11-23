@@ -40,7 +40,7 @@ class Group(BazaModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
 
-    student = relationship("Student", back_populates="group")
+    students = relationship("Student", back_populates="group")
     #group = relationship("LectureGroup", back_populates="group") ???
 
 class Student(BazaModel):
@@ -52,7 +52,7 @@ class Student(BazaModel):
     grades = relationship('Grade', back_populates='student')
 
     group_id = Column(Integer, ForeignKey('Groups.id'))
-    group = relationship('Student', back_populates='student')
+    group = relationship('Group', back_populates='students')
 
 
 class GradeCategory(BazaModel):
