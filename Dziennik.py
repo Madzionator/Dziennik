@@ -15,24 +15,39 @@ baza = create_engine('sqlite:///test.db')  # ':memory:'
 BazaModel = declarative_base()
 
 class Lecture(BazaModel):
-    __tablename__ = 'przedmiot'
+    __tablename__ = 'Lectures'
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
+    group = relationship("LectureGroup", back_populates="lecture")
 
 class Group(BazaModel):
-    __tablename__ = 'grupa'
+    __tablename__ = 'Groups'
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
+    group = relationship("LectureGroup", back_populates="group")
+    student = relationship("Student", back_populates="group")
 
 class LectureGroup(BazaModel):
-    __tablename__ = 'przedmiot_grupa'
+    __tablename__ = 'LectureGroups'
     id = Column(Integer, primary_key=True)
     id_Lecture = Column(Integer, nullable=False)
     id_Group = Column(Integer, nullable=False)
 
+    lecture = Column(Integer, ForeignKey('Lectures.id'))
+    lecturegroup = relationship("Lecture", back_populates="group")
+
+    group_id = Column(Integer, ForeignKey('Groups.id'))
+    lecturegroup = relationship("Group", back_populates="lecture")
+
+
 class Student(BazaModel):
-    __tablename__ = 'student'
+    __tablename__ = 'Students'
     id = Column(Integer, primary_key=True)
     FirstName = Column(String(100), nullable=False)
     LastName = Column(String(100), nullable=False)
     id_group = Column(Integer, nullable=False)
+
+    group_id = Column(Integer, ForeignKey('Groups.id'))
+    group = relationship("Group", back_populates="student")
+
+BazaModel.metadata.create_all(baza)
