@@ -127,7 +127,7 @@ if not sesja.query(Grade).count():
 #for dane in sesja.query(Subject.name).all():
 #    print(dane)
 
-for dane in sesja.query(Student.first_name, 
+'''for dane in sesja.query(Student.first_name, 
                         Student.last_name, 
                         Grade.value,
                         GradeCategory.name,
@@ -140,4 +140,4 @@ for dane in sesja.query(Student.first_name,
                                     Subject).join(
                                         GradeCategory, 
                                         Grade.grade_category_id == GradeCategory.id).order_by(Student.id).all():
-    print(dane)
+    print(dane)'''
