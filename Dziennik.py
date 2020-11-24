@@ -15,25 +15,27 @@ baza = create_engine('sqlite:///baza.db')  # ':memory:'
 BazaModel = declarative_base()
 
 
-'''class Lecture(BazaModel):
-    __tablename__ = 'Lectures'
+'''
+class SubjectGroup(BazaModel):
+    __tablename__ = 'SubjectGroups'
     id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    group = relationship("LectureGroup", back_populates="lecture")
-
-class LectureGroup(BazaModel):
-    __tablename__ = 'LectureGroups'
-    id = Column(Integer, primary_key=True)
-    id_Lecture = Column(Integer, nullable=False)
+    id_Subject = Column(Integer, nullable=False)
     id_Group = Column(Integer, nullable=False)
 
-    lecture = Column(Integer, ForeignKey('Lectures.id'))
-    lecturegroup = relationship("Lecture", back_populates="group")
+    Subject = Column(Integer, ForeignKey('Subjects.id'))
+    Subjectgroup = relationship("Subject", back_populates="group")
 
     group_id = Column(Integer, ForeignKey('Groups.id'))
-    lecturegroup = relationship("Group", back_populates="lecture") '''
+    Subjectgroup = relationship("Group", back_populates="Subject") '''
 
     #ponizej git
+
+class Subject(BazaModel):
+    __tablename__ = 'Subjects'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
+    grades = relationship("Grade", back_populates="subjects")
+
 
 class Group(BazaModel):
     __tablename__ = 'Groups'
@@ -41,7 +43,7 @@ class Group(BazaModel):
     name = Column(String(100), nullable=False)
 
     students = relationship("Student", back_populates="group")
-    #group = relationship("LectureGroup", back_populates="group") ???
+    #group = relationship("SubjectGroup", back_populates="group") ???
 
 class Student(BazaModel):
     __tablename__ = 'Students'
@@ -73,13 +75,17 @@ class Grade(BazaModel):
     student_id = Column(Integer, ForeignKey('Students.id'))
     student = relationship('Student', back_populates='grades')
 
-    #lecture_id = Column(Integer, nullable = False)
+    subject_id = Column(Integer, ForeignKey('Subjects.id'))
+    subjects = relationship('Subject', back_populates='grades')
 
 
 BazaModel.metadata.create_all(baza)
 
 BDSesja = sessionmaker(bind=baza)
 sesja = BDSesja()
+
+if not sesja.query(Subject).count():
+    sesja.add(Subject(name = 'wdp'))
 
 if not sesja.query(Group).count():
     sesja.add(Group(name = 'EF'))
@@ -95,9 +101,9 @@ if not sesja.query(GradeCategory).count():
     sesja.add(GradeCategory(name='Test'))
 
 if not sesja.query(Grade).count():
-    sesja.add(Grade(value = 4, grade_category_id = 3, student_id = 2))
-    sesja.add(Grade(value = 3, grade_category_id = 2, student_id = 1))
-    sesja.add(Grade(value = 5, grade_category_id = 2, student_id = 2))
+    sesja.add(Grade(value = 4, grade_category_id = 3, student_id = 2, subject_id = 1))
+    sesja.add(Grade(value = 3, grade_category_id = 2, student_id = 1, subject_id = 1))
+    sesja.add(Grade(value = 5, grade_category_id = 2, student_id = 2, subject_id = 1))
 
 #for dane in sesja.query(Grade.value, GradeCategory.name).join(GradeCategory, GradeCategory.id == Grade.grade_category_id).all():
 #    print (dane)
@@ -105,5 +111,5 @@ if not sesja.query(Grade).count():
 #for dane in sesja.query(Grade.value, GradeCategory.name, Student.first_name).join(GradeCategory, GradeCategory.id == Grade.grade_category_id).join(Student, Student.id == Grade.student_id).all():
 #    print (dane)
 
-for dane in sesja.query(Student.first_name, Student.last_name, Group.name).join(Group, Group.id == Student.group_id).all():
+for dane in sesja.query(Student.first_name, Student.last_name, Group.name, Subject.name).join(Group, Group.id == Student.group_id).all():
     print (dane)
