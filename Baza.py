@@ -141,3 +141,5 @@ if not sesja.query(Grade).count():
                                         GradeCategory, 
                                         Grade.grade_category_id == GradeCategory.id).order_by(Student.id).all():
     print(dane)'''
+
+sesja.query()
