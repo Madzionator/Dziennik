@@ -72,30 +72,27 @@ class Group_window(tk.Frame):
 app = Application()'''
 
 import tkinter as tk
-from subject_add_edit import PageOne, PageTwo
+from start_page import StartPage
 
 class Application(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-        self._frame = None
-        self.switch_frame(StartPage)
+        self.frame_stack = []
+        self.navigate_to(StartPage)
 
-    def switch_frame(self, frame_class):
-        """Destroys current frame and replaces it with a new one."""
-        new_frame = frame_class(self)
-        if self._frame is not None:
-            self._frame.destroy()
-        self._frame = new_frame
-        self._frame.pack()
+    def navigate_to(self, frame_class):
+        if len(self.frame_stack) > 0:
+            self.frame_stack[-1].pack_forget()
+        self.frame_stack.append(frame_class(self))
+        self.frame_stack[-1].pack()
 
-class StartPage(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-        tk.Label(self, text="This is the start page").pack(side="top", fill="x", pady=10)
-        tk.Button(self, text="Open page one",
-                  command=lambda: master.switch_frame(PageOne)).pack()
-        tk.Button(self, text="Open page two",
-                  command=lambda: master.switch_frame(PageTwo)).pack()
+    def go_back(self):
+        self.frame_stack.pop().destroy()
+        self.frame_stack[-1].pack()
+        try:
+            self.frame_stack[-1].on_back()
+        except AttributeError:
+            pass
 
 if __name__ == "__main__":
     app = Application()
