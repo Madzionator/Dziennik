@@ -9,18 +9,30 @@ class Subject_Add(tk.Frame):
         self.name_entry = tk.Entry(self)
         self.name_entry.pack(anchor = 'w')
 
+        self.all_groups = []
+        self.groups_checkbox = []
+        self.groups_checkbox_state = []
+
         tk.Label(self, text="Wybierz przynależne grupy: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
 
-        self.groups = []
-        for i in sesja.query(Group.name).all():
+        for group in sesja.query(Group).all():
             var = tk.IntVar()
-            self.groups.append(tk.Checkbutton(self, text=i, variable=var))
+            self.all_groups.append(group)
+            self.groups_checkbox.append(tk.Checkbutton(self, text=group.name, variable=var))
+            self.groups_checkbox_state.append(var);
             
-        for i in self.groups:
-            i.pack(anchor = 'w')
+        for group in self.groups_checkbox:
+            group.pack(anchor = 'w')
 
         tk.Button(self, text="Zapisz", command = self.save).pack()
         tk.Button(self, text="Return to start page", command=lambda: master.go_back()).pack()
+
+    def get_selected_groups(self):
+        wybrane_grupy = []
+        for i in range(len(self.all_groups)):
+            if self.groups_checkbox_state[i].get():
+                wybrane_grupy.append(self.all_groups[i])
+        return wybrane_grupy
 
     def save(self):
         name_str = self.name_entry.get()
@@ -34,10 +46,8 @@ class Subject_Add(tk.Frame):
         if exists:
             msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
         else:
-            print("git", name_str) #tymczasowo
-            #for i in self.groups:
-            #    print (i)
-
+            print([x.name for x in self.get_selected_groups()])
+            # dodaj do bazy
 
 class Subject_Edit(tk.Frame):
     def __init__(self, master):
