@@ -25,6 +25,9 @@
     <Compile Include="Dziennik.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="group_page.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="start_page.py">
       <SubType>Code</SubType>
     </Compile>

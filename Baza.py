@@ -7,12 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.associationproxy import association_proxy
 
-if os.path.exists('test.db'):
-    os.remove('test.db')
-# tworzymy instancję klasy Engine do obsługi bazy
-baza = create_engine('sqlite:///baza.db')  # ':memory:'
-
-# klasa bazowa
+baza = create_engine('sqlite:///baza.db')
 BazaModel = declarative_base()
 
 class SubjectGroup(BazaModel):
@@ -30,7 +25,7 @@ class Subject(BazaModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
    
-    groups = association_proxy("group_associations", "Group", creator=lambda c: SubjectGroup(group=c))
+    groups = association_proxy("group_associations", "group", creator=lambda c: SubjectGroup(group=c))
 
     grades = relationship("Grade", back_populates='subject')
 
@@ -43,7 +38,7 @@ class Group(BazaModel):
 
     students = relationship("Student", back_populates="group")
     
-    subjects = association_proxy("subject_associations", "Subject", creator=lambda s: SubjectGroup(subject=s))
+    subjects = association_proxy("subject_associations", "subject", creator=lambda s: SubjectGroup(subject=s))
     
 
 class Student(BazaModel):
@@ -141,5 +136,3 @@ if not sesja.query(Grade).count():
                                         GradeCategory, 
                                         Grade.grade_category_id == GradeCategory.id).order_by(Student.id).all():
     print(dane)'''
-
-sesja.query()

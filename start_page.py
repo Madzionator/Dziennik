@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox as msb
 from Baza import sesja, Subject
 from subject_add_edit import Subject_Add, Subject_Edit
+from group_page import Group_Choice
 
 def unpack(subject_list):
     finally_list = []
@@ -24,7 +25,7 @@ class StartPage(tk.Frame):
 
         self.choice = 0
         def SubjectSelect(event):
-            self.choice = self.get_choice()  # by name
+            self.choice = self.get_choice() 
 
         self.subject_list.bind('<<ListboxSelect>>', SubjectSelect)
 
@@ -34,8 +35,11 @@ class StartPage(tk.Frame):
         delete_button = tk.Button(self, text="usuń", width=20)
         delete_button.pack(anchor = 'w')'''
 
+        self.master = master
+
+        tk.Button(self, text="Otwórz", command= self.try_open).pack()
         tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Subject_Add)).pack()
-        tk.Button(self, text="Edytuj", command=lambda: master.navigate_to(Subject_Edit, choice)).pack()
+        tk.Button(self, text="Edytuj", command= self.try_edit).pack()
         tk.Button(self, text="Usuń", command=self.delete_subject).pack()
 
     def load_subject(self):
@@ -48,7 +52,8 @@ class StartPage(tk.Frame):
         choice = unpack_choice(self.subject_list.curselection())
         subjects = unpack(sesja.query(Subject.name).order_by(Subject.name).all())
         str_choice = subjects[choice]
-        return str_choice
+        return sesja.query(Subject.id, Subject.name).filter(Subject.name == str_choice).one()
+
 
     def on_back(self):
         self.load_subject()
@@ -58,7 +63,19 @@ class StartPage(tk.Frame):
             msb.showinfo(None, "Nie wybrano przedmiotu do usunięcia.")
             return
         if msb.askokcancel(None, ("Na pewno chcesz usunąć?") ):
-            sesja.query(Subject).filter(Subject.name==self.choice).delete()
+            sesja.query(Subject).filter(Subject.name==self.choice.name).delete()
             self.load_subject()
             self.choice = 0
             sesja.commit()
+
+    def try_edit(self):
+        if self.choice == 0:
+            msb.showwarning("Błąd", "Nie wybrano przedmiotu.")
+            return
+        self.master.navigate_to(Subject_Edit, self.choice)
+
+    def try_open(self):
+        if self.choice == 0:
+            msb.showwarning("Błąd", "Nie wybrano przedmiotu.")
+            return
+        self.master.navigate_to(Group_Choice, self.choice)
