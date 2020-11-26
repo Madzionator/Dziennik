@@ -17,16 +17,13 @@ class StartPage(tk.Frame):
         tk.Frame.__init__(self, master)
         tk.Label(self, text = "Przedmioty: ", font = 24).pack(anchor = 'w')
 
-        subject_list = tk.Listbox(self, font = 2)
-        subjects = unpack(sesja.query(Subject.name).order_by(Subject.name).all())
-        for i in range(len(subjects)):
-            subject_list.insert(i, subjects[i])
-        subject_list.pack(anchor = 'w')
+        self.subject_list = tk.Listbox(self, font = 2)
+        self.load_subject()
+        self.subject_list.pack(anchor = 'w')
 
         def SubjectSelect(event):
-            choice = unpack_choice(subject_list.curselection())
-            print(subjects[choice]) #tymczasowe
-        subject_list.bind('<<ListboxSelect>>', SubjectSelect)
+            choice = unpack_choice(self.subject_list.curselection())
+        self.subject_list.bind('<<ListboxSelect>>', SubjectSelect)
 
         '''open_button = tk.Button(self, text="otwórz", width=20)
         open_button.pack(anchor = 'w')
@@ -37,5 +34,12 @@ class StartPage(tk.Frame):
         tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Subject_Add)).pack()
         tk.Button(self, text="Edytuj", command=lambda: master.navigate_to(Subject_Edit)).pack()
 
+    def load_subject(self):
+        self.subject_list.delete(0, tk.END)
+        subjects = unpack(sesja.query(Subject.name).order_by(Subject.name).all())
+        for i in range(len(subjects)):
+            self.subject_list.insert(i, subjects[i])
+        
+
     def on_back(self):
-        print("?")
+        self.load_subject()

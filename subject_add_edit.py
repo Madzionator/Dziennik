@@ -47,10 +47,8 @@ class Subject_Add(tk.Frame):
         if exists:
             msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
         else:
-            # print([x.name for x in self.get_selected_groups()])
             sesja.add(Subject(name = name_str))
             id = sesja.query(Subject.id).filter_by(name = name_str).one()
-            print(id[0])
             for x in self.get_selected_groups():
                 sesja.add(SubjectGroup(subject_id = id[0], group_id = x.id))
             self.master.go_back()
