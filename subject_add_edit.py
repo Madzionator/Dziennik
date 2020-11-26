@@ -12,6 +12,7 @@ class Subject_Add(tk.Frame):
         self.all_groups = []
         self.groups_checkbox = []
         self.groups_checkbox_state = []
+        self.master = master
 
         tk.Label(self, text="Wybierz przynależne grupy: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
 
@@ -28,11 +29,11 @@ class Subject_Add(tk.Frame):
         tk.Button(self, text="Return to start page", command=lambda: master.go_back()).pack()
 
     def get_selected_groups(self):
-        wybrane_grupy = []
+        checked_groups = []
         for i in range(len(self.all_groups)):
             if self.groups_checkbox_state[i].get():
-                wybrane_grupy.append(self.all_groups[i])
-        return wybrane_grupy
+                checked_groups.append(self.all_groups[i])
+        return checked_groups
 
     def save(self):
         name_str = self.name_entry.get()
@@ -46,8 +47,13 @@ class Subject_Add(tk.Frame):
         if exists:
             msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
         else:
-            print([x.name for x in self.get_selected_groups()])
-            # dodaj do bazy
+            # print([x.name for x in self.get_selected_groups()])
+            sesja.add(Subject(name = name_str))
+            id = sesja.query(Subject.id).filter_by(name = name_str).one()
+            print(id[0])
+            for x in self.get_selected_groups():
+                sesja.add(SubjectGroup(subject_id = id[0], group_id = x.id))
+            self.master.go_back()
 
 class Subject_Edit(tk.Frame):
     def __init__(self, master):
