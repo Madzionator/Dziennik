@@ -35,7 +35,7 @@ class StartPage(tk.Frame):
         delete_button.pack(anchor = 'w')'''
 
         tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Subject_Add)).pack()
-        tk.Button(self, text="Edytuj", command=lambda: master.navigate_to(Subject_Edit)).pack()
+        tk.Button(self, text="Edytuj", command=lambda: master.navigate_to(Subject_Edit, choice)).pack()
         tk.Button(self, text="Usuń", command=self.delete_subject).pack()
 
     def load_subject(self):
@@ -61,3 +61,4 @@ class StartPage(tk.Frame):
             sesja.query(Subject).filter(Subject.name==self.choice).delete()
             self.load_subject()
             self.choice = 0
+            sesja.commit()

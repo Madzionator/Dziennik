@@ -51,10 +51,11 @@ class Subject_Add(tk.Frame):
             id = sesja.query(Subject.id).filter_by(name = name_str).one()
             for x in self.get_selected_groups():
                 sesja.add(SubjectGroup(subject_id = id[0], group_id = x.id))
+            sesja.commit()
             self.master.go_back()
 
 class Subject_Edit(tk.Frame):
-    def __init__(self, master):
+    def __init__(self, master, subject):
         tk.Frame.__init__(self, master)
         tk.Label(self, text="Podaj nową nazwę przedmiotu: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
         self.name_entry = tk.Entry(self)
