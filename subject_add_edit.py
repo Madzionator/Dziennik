@@ -54,10 +54,12 @@ class Subject_Add(tk.Frame):
 class Subject_Edit(tk.Frame):
     def __init__(self, master, subject):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text="Podaj nową nazwę przedmiotu: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
+        tk.Label(self, text="Zmień nazwę przedmiotu: ").pack(fill="x", pady = 4, anchor = 'w')
         self.name_entry = tk.Entry(self)
+        self.name_entry.insert(0, subject.name)
         self.name_entry.pack(anchor = 'w')
         self.master = master
+        self.subject = subject
         
         self.all_groups = []
         self.groups_checkbox = []
@@ -81,19 +83,12 @@ class Subject_Edit(tk.Frame):
         tk.Button(self, text="Zapisz", command = self.save).pack()
         tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
 
-    def get_added_groups(self):
-        added_groups = []
+    def get_selected_groups(self):
+        selected_groups = []
         for i in range(len(self.all_groups)):
             if self.groups_checkbox_state[i].get(): #porównać z bazą, dodać do nowych jeśli nie było wcześniej
-                added_groups.append(self.all_groups[i])
-        return added_groups
-        
-    def get_delete_groups(self):
-        delete_groups = []
-        for i in range(len(self.all_groups)):
-            if not self.groups_checkbox_state[i].get(): #porównać z bazą, dodać to usunietych jeśli było wcześniej
-                delete_groups.append(self.all_groups[i])
-        return delete_groups
+                selected_groups.append(self.all_groups[i])
+        return selected_groups
 
     def save(self):
         name_str = self.name_entry.get()
@@ -103,15 +98,15 @@ class Subject_Edit(tk.Frame):
         elif len(name_str)>100:
             msb.showwarning("Błąd", "Wprowadzona nazwa jest za długa.")
             return
-        exists = sesja.query(Subject.name).filter_by(name = name_str).scalar() # None
-        if exists:
-            msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
-        else:
-            print ("git")
-            '''sesja.add(Subject(name = name_str))
-            id = sesja.query(Subject.id).filter_by(name = name_str).one()
-            for x in self.get_added_groups():
-                sesja.add(SubjectGroup(subject_id = id[0], group_id = x.id))
-            for x in self.get_deleted_groups():
-                sesja.query(SubjectGroups).filter(------).delete()  # coś w tym stylu, potem popraw, jak reszta zadziała
-            self.master.go_back()'''
+        if name_str != self.subject.name:
+            exists = sesja.query(Subject.name).filter_by(name = name_str).scalar() # None
+            if exists:
+                msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
+                return        
+        print ("git")
+        sesja.query(SubjectGroup.group_id).filter(SubjectGroup.subject_id==self.subject.id).delete()
+        x = sesja.query(Subject).get(self.subject.id)
+        x.name = name_str
+        sesja.add(Subject(name = name_str, groups=self.get_selected_groups()))
+        sesja.commit()
+        self.master.go_back()
