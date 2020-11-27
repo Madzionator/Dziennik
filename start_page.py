@@ -42,6 +42,7 @@ class StartPage(tk.Frame):
             self.subject_list.insert(i, subjects[i])
 
     def get_choice(self):
+        print("co ja tutaj robie?")
         choice = unpack_choice(self.subject_list.curselection())
         subjects = unpack(sesja.query(Subject.name).order_by(Subject.name).all())
         str_choice = subjects[choice]

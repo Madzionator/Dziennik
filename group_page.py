@@ -22,9 +22,9 @@ class Group_Choice(tk.Frame):
         self.group_choice = 0
         def GroupSelect(event):
             self.group_choice = self.get_group_choice()
-            print("choice", self.group_choice)
+            print("choice", self.group_choice)  #czemu nie string, halo (tymczasowo, ale mimo wszystko)
         self.group_list.bind('<<ListboxSelect>>', GroupSelect)
-
+        
         tk.Button(self, text="Return to start page",
                   command=lambda: master.go_back()).pack()
 
@@ -41,5 +41,6 @@ class Group_Choice(tk.Frame):
     def get_group_choice(self):
         choice = self.group_list.curselection()[0]
         str_choice = self.group_list_object[choice]
+        print("wybor", str_choice)
         return str_choice
         #return sesja.query(Group.id, Group.name).filter(Group.name == str_choice).one()
