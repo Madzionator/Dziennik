@@ -28,13 +28,6 @@ class StartPage(tk.Frame):
             self.choice = self.get_choice() 
 
         self.subject_list.bind('<<ListboxSelect>>', SubjectSelect)
-
-        '''open_button = tk.Button(self, text="otwórz", width=20)
-        open_button.pack(anchor = 'w')
-
-        delete_button = tk.Button(self, text="usuń", width=20)
-        delete_button.pack(anchor = 'w')'''
-
         self.master = master
 
         tk.Button(self, text="Otwórz", command= self.try_open).pack()

@@ -86,7 +86,7 @@ class Subject_Edit(tk.Frame):
     def get_selected_groups(self):
         selected_groups = []
         for i in range(len(self.all_groups)):
-            if self.groups_checkbox_state[i].get(): #porównać z bazą, dodać do nowych jeśli nie było wcześniej
+            if self.groups_checkbox_state[i].get():
                 selected_groups.append(self.all_groups[i])
         return selected_groups
 
@@ -103,7 +103,6 @@ class Subject_Edit(tk.Frame):
             if exists:
                 msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
                 return        
-        print ("git")
         sesja.query(Subject).filter(Subject.id == self.subject.id).update({Subject.name: name_str})
 
         sesja.query(SubjectGroup.group_id).filter(SubjectGroup.subject_id==self.subject.id).delete()
