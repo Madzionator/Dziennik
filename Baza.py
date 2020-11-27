@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.associationproxy import association_proxy
 
-baza = create_engine('sqlite:///baza.db')
+baza = create_engine('sqlite:///baza')
 BazaModel = declarative_base()
 
 class SubjectGroup(BazaModel):
