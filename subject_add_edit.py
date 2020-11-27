@@ -70,9 +70,8 @@ class Subject_Edit(tk.Frame):
             var = tk.IntVar()
             self.all_groups.append(group)
             self.groups_checkbox.append(tk.Checkbutton(self, text=group.name, variable=var))
-            result = sesja.query(SubjectGroup.group_id).filter(SubjectGroup.subject_id == subject.id).all() #poprawić później jak baza będzie ok
-            print(result)
-                #self.groups_checkbox[i].select()
+            if sesja.query(SubjectGroup.group_id).filter(SubjectGroup.subject_id == subject.id, SubjectGroup.group_id == group.id).scalar():
+                self.groups_checkbox[i].select()
             self.groups_checkbox_state.append(var);
             i+=1
             
