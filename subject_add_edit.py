@@ -104,9 +104,10 @@ class Subject_Edit(tk.Frame):
                 msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
                 return        
         print ("git")
+        sesja.query(Subject).filter(Subject.id == self.subject.id).update({Subject.name: name_str})
+
         sesja.query(SubjectGroup.group_id).filter(SubjectGroup.subject_id==self.subject.id).delete()
-        x = sesja.query(Subject).get(self.subject.id)
-        x.name = name_str
-        sesja.add(Subject(name = name_str, groups=self.get_selected_groups()))
+        for group in self.get_selected_groups():
+            sesja.add(SubjectGroup(subject_id=self.subject.id, group_id=group.id))
         sesja.commit()
         self.master.go_back()
