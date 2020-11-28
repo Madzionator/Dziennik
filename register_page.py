@@ -18,10 +18,10 @@ class Students_array(tk.Frame):
         for grade_category in sesja.query(GradeCategory).all():
             self.grade_categories_list.append(grade_category)
         
-        y = len(self.students_obj_list) + 1
+        y = len(self.students_obj_list) + 2
         x = len(self.grade_categories_list) + 1
 
-        for i in range(2, y+1):
+        for i in range(2, y):
             e = tk.Text(self, height = 1, width = 40)
             e.grid(row=i, column=0)
             e.insert(tk.END, (self.students_obj_list[i-2].last_name + " " + self.students_obj_list[i-2].first_name))
@@ -34,14 +34,31 @@ class Students_array(tk.Frame):
             e.config(state='disabled')
 
         for i in range(1, x):
-            for j in range(2, y+1):
+            for j in range(2, y):
                 e = tk.Text(self, height = 1, wrap = 'word', width = 40)
                 e.grid(row=j, column=i)
                 grades = []
-                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[j-2].id, Grade.grade_category_id == self.grade_categories_list[i-1].id):
+                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[j-2].id, Grade.grade_category_id == self.grade_categories_list[i-1].id).all():
                     grades.append(grade)
                 e.insert(tk.END, grades)
                 e.config(state='disabled')
+        
+        average_label = tk.Text(self, height = 1, width = 10)
+        average_label.grid(column = x, row = 1)
+        average_label.insert(tk.END, "Średnia")
+        average_label.config(state='disabled')
+        for i in range(2, y):
+                e = tk.Text(self, height = 1, width = 10)
+                e.grid(row=i, column=x)
+                student_grades = []
+                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[i-2].id):
+                    student_grades.append(grade.value)
+                iAverage = 0
+                if len(student_grades) > 0:
+                    iAverage = round(sum(student_grades)/len(student_grades), 2)
+                e.insert(tk.END, iAverage)
+                e.config(state='disabled')
+
 
         #print(self.students_obj_list[0].first_name)
 
