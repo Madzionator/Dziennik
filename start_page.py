@@ -27,7 +27,12 @@ class StartPage(tk.Frame):
         def SubjectSelect(event):
             self.choice = self.get_choice() 
 
+        def SubjectOpen(event):
+            self.choice = self.get_choice() 
+            self.master.navigate_to(Group_Choice, self.choice)
+
         self.subject_list.bind('<<ListboxSelect>>', SubjectSelect)
+        self.subject_list.bind('<Double-1>', SubjectOpen)
         self.master = master
 
         tk.Button(self, text="Otwórz", command= self.try_open).pack()

@@ -25,7 +25,12 @@ class Group_Choice(tk.Frame):
         def GroupSelect(event):
             self.group_choice = self.get_group_choice()
 
+        def SubjectOpen(event):
+            self.group_choice = self.get_group_choice() 
+            self.master.navigate_to(Students_array, self.subject, self.group_choice)
+
         self.group_list.bind('<<ListboxSelect>>', GroupSelect)
+        self.group_list.bind('<Double-1>', SubjectOpen)
 
         tk.Button(self, text="Otwórz", command= self.try_open).pack()
         tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Group_Add, subject)).pack()
