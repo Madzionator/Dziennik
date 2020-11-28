@@ -9,7 +9,7 @@ class Student_Add(tk.Frame):
         tk.Label(self, text="Imię studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
         self.first_name_entry = tk.Entry(self)
         self.first_name_entry.pack(anchor = 'w')
-
+        
         tk.Label(self, text="Nazwisko studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
         self.last_name_entry = tk.Entry(self)
         self.last_name_entry.pack(anchor = 'w')
@@ -49,31 +49,50 @@ class Student_Add(tk.Frame):
         self.master.go_back()
 
 class Student_Edit(tk.Frame):
-    def __init__(self, master, group):
+    def __init__(self, master, student, group):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text="Zmień nazwę Grupy: ").pack(fill="x", pady = 4, anchor = 'w')
-        self.name_entry = tk.Entry(self)
-        self.name_entry.insert(0, group.name)
-        self.name_entry.pack(anchor = 'w')
+
         self.master = master
         self.group = group
+        self.student = student
+
+        tk.Label(self, text="Imię studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
+        self.first_name_entry = tk.Entry(self)
+        self.first_name_entry.pack(anchor = 'w')
+        self.first_name_entry.insert(0, student.first_name)
+
+        tk.Label(self, text="Nazwisko studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
+        self.last_name_entry = tk.Entry(self)
+        self.last_name_entry.pack(anchor = 'w')
+        self.last_name_entry.insert(0, student.last_name)
 
         tk.Button(self, text="Zapisz", command = self.save).pack()
         tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
 
     def save(self):
-        name_str = self.name_entry.get()
-        if len(name_str)==0 :
-            msb.showwarning("Błąd", "Nie wprowadzono nazwy grupy.")
+        first_name_str = self.first_name_entry.get()
+        last_name_str = self.last_name_entry.get()
+
+        if len(first_name_str)== 0 and len(last_name_str)== 0:
+            msb.showwarning("Błąd", "Nie podano imienia i nazwiska.")
             return
-        elif len(name_str)>100:
-            msb.showwarning("Błąd", "Wprowadzona nazwa jest za długa.")
+        elif len(first_name_str)== 0:
+            msb.showwarning("Błąd", "Nie podano imienia.")
             return
-        if name_str != self.group.name:
-            exists = sesja.query(Subject.name).filter_by(name = name_str).scalar() # None
-            if exists:
-                msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
-                return        
-        sesja.query(Group).filter(Group.id == self.group.id).update({Group.name: name_str})
+        elif len(first_name_str)== 0:
+            msb.showwarning("Błąd", "Nie podano nazwiska.")
+            return
+
+        if len(first_name_str) > 20 and len(last_name_str) > 20:
+            msb.showwarning("Błąd", "Wprowadzone nazwy są za długie.")
+            return
+        elif len(first_name_str) > 20:
+            msb.showwarning("Błąd", "Wprowadzone imie jest za długie.")
+            return
+        elif len(last_name_str) > 20:
+            msb.showwarning("Błąd", "Wprowadzone nazwisko jest za długie.")
+            return
+
+        sesja.query(Student).filter(Student.id == self.student.id).update({Student.first_name: first_name_str, Student.last_name: last_name_str})
         sesja.commit()
         self.master.go_back()
