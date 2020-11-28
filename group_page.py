@@ -29,10 +29,10 @@ class Group_Choice(tk.Frame):
         #tk.Button(self, text="Otwórz", command= self.try_open).pack()
         tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Group_Add, subject)).pack()
         tk.Button(self, text="Edytuj", command= self.try_edit).pack()
-        #tk.Button(self, text="Usuń", command=self.delete_subject).pack()
+        tk.Button(self, text="Usuń stąd grupę", command=self.delete_subject_here).pack()
+        tk.Button(self, text="Usuń grupę całkowicie", command=self.delete_subject_everywhere).pack()
            
-        tk.Button(self, text="Wróć",
-                  command=lambda: master.go_back()).pack()
+        tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
 
 
     def load_group(self):
@@ -55,3 +55,23 @@ class Group_Choice(tk.Frame):
             msb.showwarning("Błąd", "Nie wybrano grupy.")
             return
         self.master.navigate_to(Group_Edit, self.group_choice)
+
+    def delete_subject_everywhere(self):
+        if not self.group_choice:
+            msb.showinfo(None, "Nie wybrano przedmiotu do usunięcia.")
+            return
+        if msb.askokcancel(None, ("Na pewno chcesz usunąć?") ):
+            sesja.query(Group).filter(Group.id==self.group_choice.id).delete()
+            self.load_group()
+            self.group_choice = 0
+            sesja.commit()
+
+    def delete_subject_here(self):
+        if not self.group_choice:
+            msb.showinfo(None, "Nie wybrano przedmiotu do usunięcia.")
+            return
+        if msb.askokcancel(None, ("Na pewno chcesz usunąć?") ):
+            sesja.query(SubjectGroup).filter(SubjectGroup.group_id == self.group_choice.id, SubjectGroup.subject_id == self.subject.id).delete()
+            self.load_group()
+            self.group_choice = 0
+            sesja.commit()
