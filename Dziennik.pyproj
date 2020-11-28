@@ -31,6 +31,9 @@
     <Compile Include="group_page.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="student_add_edit.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="register_page.py">
       <SubType>Code</SubType>
     </Compile>
