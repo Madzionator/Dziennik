@@ -5,7 +5,8 @@ import tkinter as tk
 class Students_array(tk.Frame):
     def __init__(self, master, subject, group):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text=("Przedmiot: " + subject.name + "\nGrupa: " + group.name), font = 2)
+        label = tk.Label(self, text=("Przedmiot: " + subject.name + "\nGrupa: " + group.name), font = 2)
+        label.grid(row = 0)
         self.group = group
         self.subject = subject
 
@@ -19,12 +20,30 @@ class Students_array(tk.Frame):
         
         y = len(self.students_obj_list) + 1
         x = len(self.grade_categories_list) + 1
+        for sth in self.grade_categories_list:
+            print(sth.name)
 
-        for i in range(1, y):
+        for i in range(2, y+1):
             e = tk.Entry(self)
             e.grid(row=i, column=0)
-            e.insert(tk.END, (self.students_obj_list[i-1].last_name + " " + self.students_obj_list[i-1].first_name))
+            e.insert(tk.END, (self.students_obj_list[i-2].last_name + " " + self.students_obj_list[i-2].first_name))
             e.config(state='disabled')
+
+        for i in range(1, x):
+            e = tk.Entry(self)
+            e.grid(row=1, column=i)
+            e.insert(tk.END, (self.grade_categories_list[i-1].name))
+            e.config(state='disabled')
+
+        for i in range(1, x):
+            for j in range(2, y+1):
+                e = tk.Entry(self)
+                e.grid(row=j, column=i)
+                grades = []
+                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[j-2].id, Grade.grade_category_id == self.grade_categories_list[i-1].id):
+                    grades.append(grade)
+                e.insert(tk.END, grades)
+                e.config(state='disabled')
 
         #print(self.students_obj_list[0].first_name)
 
