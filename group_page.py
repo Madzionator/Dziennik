@@ -1,4 +1,5 @@
 from Baza import sesja, Subject, Group, SubjectGroup
+from group_add_edit import Group_Add, Group_Edit
 import tkinter as tk
 from tkinter import messagebox as msb
 
@@ -22,10 +23,15 @@ class Group_Choice(tk.Frame):
         self.group_choice = 0
         def GroupSelect(event):
             self.group_choice = self.get_group_choice()
-            print("choice", self.group_choice)  #czemu nie string, halo (tymczasowo, ale mimo wszystko)
+
         self.group_list.bind('<<ListboxSelect>>', GroupSelect)
-        
-        tk.Button(self, text="Return to start page",
+
+        #tk.Button(self, text="Otwórz", command= self.try_open).pack()
+        tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Group_Add, subject)).pack()
+        tk.Button(self, text="Edytuj", command= self.try_edit).pack()
+        #tk.Button(self, text="Usuń", command=self.delete_subject).pack()
+           
+        tk.Button(self, text="Wróć",
                   command=lambda: master.go_back()).pack()
 
 
@@ -35,12 +41,17 @@ class Group_Choice(tk.Frame):
         self.group_list_object = []
         for group in sesja.query(Group).all():
             if sesja.query(SubjectGroup).filter(SubjectGroup.subject_id == self.subject.id, SubjectGroup.group_id == group.id).scalar():
-                self.group_list.insert(0, group.name)
+                self.group_list.insert(i, group.name)
                 self.group_list_object.append(group)
+                i+=1
 
     def get_group_choice(self):
-        choice = self.group_list.curselection()[0]
-        str_choice = self.group_list_object[choice]
-        print("wybor", str_choice)
-        return str_choice
-        #return sesja.query(Group.id, Group.name).filter(Group.name == str_choice).one()
+        int_choice = self.group_list.curselection()[0]
+        obj_choice = self.group_list_object[int_choice]
+        return obj_choice
+
+    def try_edit(self):
+        if self.group_choice == 0:
+            msb.showwarning("Błąd", "Nie wybrano grupy.")
+            return
+        self.master.navigate_to(Group_Edit, self.group_choice)

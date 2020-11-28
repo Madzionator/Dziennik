@@ -35,6 +35,8 @@ class Application(tk.Tk):
             self.current_frame = frame_data.frame(self)
         elif frame_arg_count == 2:
             self.current_frame = frame_data.frame(self, frame_data.arg)
+        elif frame_arg_count == 3:
+            self.current_frame = frame_data.frame(self, frame_data.arg, frame_data.arg)
         self.current_frame.pack()
 
 if __name__ == "__main__":
