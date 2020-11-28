@@ -98,17 +98,18 @@ if not sesja.query(Student).count():
     sesja.add(Student(first_name='Madzionator', last_name='Madzik', group_id = 1))
 
 if not sesja.query(GradeCategory).count():
-    sesja.add(GradeCategory(name='Kolos1'))
-    sesja.add(GradeCategory(name='Kolos2'))
-    sesja.add(GradeCategory(name='Test'))
+    sesja.add(GradeCategory(name='zadania'))
+    sesja.add(GradeCategory(name='sprawozdania'))
+    sesja.add(GradeCategory(name='testy'))
+    sesja.add(GradeCategory(name='egzamin'))
 
 if not sesja.query(Grade).count():
-    sesja.add(Grade(value = 5, grade_category_id = 3, student_id = 2, subject_id = 2))
+    sesja.add(Grade(value = 5, grade_category_id = 4, student_id = 2, subject_id = 2))
+    sesja.add(Grade(value = 5, grade_category_id = 4, student_id = 2, subject_id = 1))
     sesja.add(Grade(value = 5, grade_category_id = 3, student_id = 2, subject_id = 1))
-    sesja.add(Grade(value = 5, grade_category_id = 2, student_id = 2, subject_id = 1))
-    sesja.add(Grade(value = 2, grade_category_id = 3, student_id = 1, subject_id = 2))
-    sesja.add(Grade(value = 3, grade_category_id = 1, student_id = 1, subject_id = 1))
-    sesja.add(Grade(value = 3.5, grade_category_id = 2, student_id = 1, subject_id = 1))
+    sesja.add(Grade(value = 2, grade_category_id = 4, student_id = 1, subject_id = 2))
+    sesja.add(Grade(value = 3, grade_category_id = 3, student_id = 1, subject_id = 1))
+    sesja.add(Grade(value = 3.5, grade_category_id = 3, student_id = 1, subject_id = 1))
 
 #for dane in sesja.query(Grade.value, GradeCategory.name).join(GradeCategory, GradeCategory.id == Grade.grade_category_id).all():
 #    print (dane)
