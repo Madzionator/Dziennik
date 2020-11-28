@@ -3,9 +3,10 @@ from inspect import signature
 from start_page import StartPage
 
 class frame_data:
-    def __init__(self, frame, arg):
+    def __init__(self, frame, arg, arg2):
         self.frame = frame
         self.arg = arg
+        self.arg2 = arg2
 
 class Application(tk.Tk):
     def __init__(self):
@@ -14,11 +15,11 @@ class Application(tk.Tk):
         self.current_frame = None
         self.navigate_to(StartPage)
 
-    def navigate_to(self, frame_class, arg = None):
+    def navigate_to(self, frame_class, arg = None, arg2 = None):
         if self.current_frame is not None:
             self.current_frame.destroy()
 
-        new_frame = frame_data(frame_class, arg)
+        new_frame = frame_data(frame_class, arg, arg2)
         self.frame_stack.append(new_frame)
         self.show_frame(new_frame)
 
@@ -36,7 +37,7 @@ class Application(tk.Tk):
         elif frame_arg_count == 2:
             self.current_frame = frame_data.frame(self, frame_data.arg)
         elif frame_arg_count == 3:
-            self.current_frame = frame_data.frame(self, frame_data.arg, frame_data.arg)
+            self.current_frame = frame_data.frame(self, frame_data.arg, frame_data.arg2)
         self.current_frame.pack()
 
 if __name__ == "__main__":

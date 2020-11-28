@@ -1,5 +1,6 @@
 from Baza import sesja, Subject, Group, SubjectGroup
 from group_add_edit import Group_Add, Group_Edit
+from register_page import Students_array
 import tkinter as tk
 from tkinter import messagebox as msb
 
@@ -26,7 +27,7 @@ class Group_Choice(tk.Frame):
 
         self.group_list.bind('<<ListboxSelect>>', GroupSelect)
 
-        #tk.Button(self, text="Otwórz", command= self.try_open).pack()
+        tk.Button(self, text="Otwórz", command= self.try_open).pack()
         tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Group_Add, subject)).pack()
         tk.Button(self, text="Edytuj", command= self.try_edit).pack()
         tk.Button(self, text="Usuń stąd grupę", command=self.delete_subject_here).pack()
@@ -55,6 +56,12 @@ class Group_Choice(tk.Frame):
             msb.showwarning("Błąd", "Nie wybrano grupy.")
             return
         self.master.navigate_to(Group_Edit, self.group_choice)
+
+    def try_open(self):
+        if self.group_choice == 0:
+            msb.showwarning("Błąd", "Nie wybrano przedmiotu.")
+            return
+        self.master.navigate_to(Students_array, self.subject, self.group_choice)
 
     def delete_subject_everywhere(self):
         if not self.group_choice:
