@@ -14,13 +14,14 @@ class Subject_Add(tk.Frame):
         self.groups_checkbox_state = []
         self.master = master
 
-        tk.Label(self, text="Wybierz przynależne grupy: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
-
         for group in sesja.query(Group).all():
             var = tk.IntVar()
             self.all_groups.append(group)
             self.groups_checkbox.append(tk.Checkbutton(self, text=group.name, variable=var))
             self.groups_checkbox_state.append(var);
+
+        if len(self.all_groups) > 0:
+            tk.Label(self, text="Wybierz przynależne grupy: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
             
         for group in self.groups_checkbox:
             group.pack(anchor = 'w')

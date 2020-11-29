@@ -110,30 +110,3 @@ if not sesja.query(Grade).count():
     sesja.add(Grade(value = 2, grade_category_id = 4, student_id = 1, subject_id = 2))
     sesja.add(Grade(value = 3, grade_category_id = 3, student_id = 1, subject_id = 1))
     sesja.add(Grade(value = 3.5, grade_category_id = 3, student_id = 1, subject_id = 1))
-
-#for dane in sesja.query(Grade.value, GradeCategory.name).join(GradeCategory, GradeCategory.id == Grade.grade_category_id).all():
-#    print (dane)
-
-#for dane in sesja.query(Grade.value, GradeCategory.name, Student.first_name).join(GradeCategory, GradeCategory.id == Grade.grade_category_id).join(Student, Student.id == Grade.student_id).all():
-#    print (dane)
-
-#for dane in sesja.query(Student.first_name, Student.last_name, Group.name).join(Group, Group.id == Student.group_id).all():
-#    print (dane)
-
-#for dane in sesja.query(Subject.name).all():
-#    print(dane)
-
-'''for dane in sesja.query(Student.first_name, 
-                        Student.last_name, 
-                        Grade.value,
-                        GradeCategory.name,
-                        Group.name,
-                        Subject.name).join(
-                            Group, 
-                            Group.id == Student.group_id).join(
-                                Grade, 
-                                Grade.student_id == Student.id).join(
-                                    Subject).join(
-                                        GradeCategory, 
-                                        Grade.grade_category_id == GradeCategory.id).order_by(Student.id).all():
-    print(dane)'''

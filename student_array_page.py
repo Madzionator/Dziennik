@@ -40,7 +40,7 @@ class Students_array(tk.Frame):
                 e = tk.Text(self, height = 1, wrap = 'word', width = 40)
                 e.grid(row=j, column=i)
                 grades = []
-                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[j-2].id, Grade.grade_category_id == self.grade_categories_list[i-1].id).all():
+                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[j-2].id, Grade.grade_category_id == self.grade_categories_list[i-1].id, Grade.subject_id == self.subject.id).all():
                     grades.append(grade)
                 e.insert(tk.END, grades)
                 e.config(state='disabled')
@@ -53,7 +53,7 @@ class Students_array(tk.Frame):
                 e = tk.Text(self, height = 1, width = 10)
                 e.grid(row=i, column=x)
                 student_grades = []
-                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[i-2].id):
+                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[i-2].id, Grade.subject_id == self.subject.id):
                     student_grades.append(grade.value)
                 iAverage = 0
                 if len(student_grades) > 0:

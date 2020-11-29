@@ -139,7 +139,7 @@ class Grade_Add(tk.Frame):
 
         try:
             value_float = float(value_str)
-        except TypeError:
+        except ValueError:
             msb.showwarning("Błąd", "Wprowadzona wartość oceny jest nieprawidłowa.")
             return
 
