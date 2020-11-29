@@ -27,7 +27,8 @@ class Group_Choice(tk.Frame):
 
         def SubjectOpen(event):
             self.group_choice = self.get_group_choice() 
-            self.master.navigate_to(Students_array, self.subject, self.group_choice)
+            if self.group_choice != 0:
+                self.master.navigate_to(Students_array, self.subject, self.group_choice)
 
         self.group_list.bind('<<ListboxSelect>>', GroupSelect)
         self.group_list.bind('<Double-1>', SubjectOpen)
@@ -52,7 +53,13 @@ class Group_Choice(tk.Frame):
                 i+=1
 
     def get_group_choice(self):
-        int_choice = self.group_list.curselection()[0]
+        try:
+            int_choice = self.group_list.curselection()[0]
+            obj_choice = self.group_list_object[int_choice]
+            return obj_choice
+        except IndexError: 
+            return 0
+
         obj_choice = self.group_list_object[int_choice]
         return obj_choice
 

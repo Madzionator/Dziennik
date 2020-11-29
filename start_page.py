@@ -10,10 +10,6 @@ def unpack(subject_list):
         finally_list.append(i[0])
     return finally_list
 
-def unpack_choice(choice):
-    finally_choice = choice[0]
-    return finally_choice
-
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -29,7 +25,8 @@ class StartPage(tk.Frame):
 
         def SubjectOpen(event):
             self.choice = self.get_choice() 
-            self.master.navigate_to(Group_Choice, self.choice)
+            if self.choice != 0:
+                self.master.navigate_to(Group_Choice, self.choice)
 
         self.subject_list.bind('<<ListboxSelect>>', SubjectSelect)
         self.subject_list.bind('<Double-1>', SubjectOpen)
@@ -47,10 +44,13 @@ class StartPage(tk.Frame):
             self.subject_list.insert(i, subjects[i])
 
     def get_choice(self):
-        choice = unpack_choice(self.subject_list.curselection())
-        subjects = unpack(sesja.query(Subject.name).order_by(Subject.name).all())
-        str_choice = subjects[choice]
-        return sesja.query(Subject.id, Subject.name).filter(Subject.name == str_choice).one()
+        try:
+            choice = self.subject_list.curselection()
+            subjects = unpack(sesja.query(Subject.name).order_by(Subject.name).all())
+            str_choice = subjects[choice[0]]
+            return sesja.query(Subject.id, Subject.name).filter(Subject.name == str_choice).one()
+        except IndexError: 
+            return 0
 
     def delete_subject(self):
         if not self.choice:

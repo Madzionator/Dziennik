@@ -20,7 +20,8 @@ class Student_Choose(tk.Frame):
 
         def StudentEdit(event):
             self.student_choice = self.get_choice() 
-            self.master.navigate_to(Student_Edit, self.student_choice)
+            if self.student_choice != 0:
+                self.master.navigate_to(Student_Edit, self.student_choice)
 
         self.student_list.bind('<<ListboxSelect>>', StudentSelect)
         self.student_list.bind('<Double-1>', StudentEdit)
@@ -41,12 +42,15 @@ class Student_Choose(tk.Frame):
             i+=1
 
     def get_choice(self):
-        choice = self.student_list.curselection()
-        return self.student_list_obj[choice[0]]
+        try:
+            choice = self.student_list.curselection()
+            return self.student_list_obj[choice[0]]
+        except IndexError: 
+            return 0
 
     def try_delete(self):
         if not self.student_choice:
-            msb.showinfo(None, "Nie wybrano przedmiotu do usunięcia.")
+            msb.showinfo(None, "Nie wybrano studenta do usunięcia.")
             return
         if msb.askokcancel(None, ("Na pewno chcesz usunąć?") ):
             sesja.query(Student).filter(Student.id==self.student_choice.id).delete()
