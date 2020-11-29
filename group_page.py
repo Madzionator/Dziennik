@@ -1,6 +1,6 @@
 from Baza import sesja, Subject, Group, SubjectGroup
 from group_add_edit import Group_Add, Group_Edit
-from register_page import Students_array
+from student_array_page import Students_array
 import tkinter as tk
 from tkinter import messagebox as msb
 

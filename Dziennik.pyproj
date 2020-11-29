@@ -34,10 +34,13 @@
     <Compile Include="student_add_edit.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="register_page.py">
+    <Compile Include="student_array_page.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="start_page.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="student_choose.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="subject_add_edit.py">

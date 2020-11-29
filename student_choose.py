@@ -26,8 +26,9 @@ class Student_Choose(tk.Frame):
         self.student_list.bind('<Double-1>', StudentEdit)
         self.master = master
 
+        tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Student_Add, self.group)).pack()
         tk.Button(self, text="Edytuj", command= self.try_edit).pack()
-        tk.Button(self, text="Dodaj", command= self.master.navigate_to(Student_Add, self.group)).pack()
+        tk.Button(self, text="Usuń", command= self.try_delete).pack()
         tk.Button(self, text="Wróc", command=lambda: master.go_back()).pack()
 
     def load_student(self):
@@ -41,18 +42,17 @@ class Student_Choose(tk.Frame):
 
     def get_choice(self):
         choice = self.student_list.curselection()
-        print(choice)   #wywal
         return self.student_list_obj[choice[0]]
 
-    '''def delete_subject(self):
+    def try_delete(self):
         if not self.student_choice:
             msb.showinfo(None, "Nie wybrano przedmiotu do usunięcia.")
             return
         if msb.askokcancel(None, ("Na pewno chcesz usunąć?") ):
-            sesja.query(Student).filter(Subject.name==self.student_choice.name).delete()
+            sesja.query(Student).filter(Student.id==self.student_choice.id).delete()
             self.load_student()
             self.student_choice = 0
-            sesja.commit()'''
+            sesja.commit()
 
     def try_edit(self):
         if self.student_choice == 0:
