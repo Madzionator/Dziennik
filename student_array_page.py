@@ -12,7 +12,7 @@ class Students_array(tk.Frame):
         self.subject = subject
 
         self.students_obj_list = []
-        for student in sesja.query(Student).filter(Student.group_id == self.group.id).all():
+        for student in sesja.query(Student).filter(Student.group_id == self.group.id).order_by(Student.last_name).all():
             self.students_obj_list.append(student)
         
         self.grade_categories_list = []
