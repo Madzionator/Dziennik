@@ -98,9 +98,9 @@ if not sesja.query(Student).count():
     sesja.add(Student(first_name='Madzionator', last_name='Madzik', group_id = 1))
 
 if not sesja.query(GradeCategory).count():
-    sesja.add(GradeCategory(name='zadania'))
-    sesja.add(GradeCategory(name='sprawozdania'))
-    sesja.add(GradeCategory(name='testy'))
+    sesja.add(GradeCategory(name='zadanie'))
+    sesja.add(GradeCategory(name='sprawozdanie'))
+    sesja.add(GradeCategory(name='test'))
     sesja.add(GradeCategory(name='egzamin'))
 
 if not sesja.query(Grade).count():
