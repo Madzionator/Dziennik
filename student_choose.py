@@ -5,7 +5,7 @@ from grade_manager_page import Grade_Manager
 from tkinter import messagebox as msb
 
 
-class Student_Choose(tk.Frame):
+class StudentChoose(tk.Frame):
     def __init__(self, master, group, subject):
         tk.Frame.__init__(self, master)
         self.group = group

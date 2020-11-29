@@ -1,6 +1,7 @@
 from Baza import sesja, Subject, Group, SubjectGroup, Grade, GradeCategory, Student
 import tkinter as tk
-from student_choose import Student_Choose
+from student_choose import StudentChoose
+from add_grade_series_page import AddGradeSeries
 #from tkinter import messagebox as msb
 
 class Students_array(tk.Frame):
@@ -65,8 +66,9 @@ class Students_array(tk.Frame):
 
         back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back())
         back_button.grid(row = x+3, column = 0)
-        edit_students_button = tk.Button(self, text="Edytuj listę studentów", command=lambda: master.navigate_to(Student_Choose, group))
+        edit_students_button = tk.Button(self, text="Edytuj listę studentów", command=lambda: master.navigate_to(StudentChoose, group))
         edit_students_button.grid(row = x+2, column = 0)
-        edit_students_button = tk.Button(self, text="Zarządzaj ocenami", command=lambda: master.navigate_to(Student_Choose, group, subject))
-        edit_students_button.grid(row = x+2, column = 1)
-
+        edit_grades_button = tk.Button(self, text="Zarządzaj ocenami", command=lambda: master.navigate_to(StudentChoose, group, subject))
+        edit_grades_button.grid(row = x+2, column = 1)
+        add_series_button = tk.Button(self, text="Dodaj serię ocen", command=lambda: master.navigate_to(AddGradeSeries, group, subject))
+        add_series_button.grid(row = x+2, column = 2)

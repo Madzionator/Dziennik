@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="add_grade_series_page.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Baza.py" />
     <Compile Include="Dziennik.py">
       <SubType>Code</SubType>
