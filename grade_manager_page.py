@@ -38,7 +38,7 @@ class Grade_Manager(tk.Frame):
         self.grade_list.delete(0, tk.END)
         self.grade_list_obj = []
         i = 0
-        for grade in sesja.query(Grade).filter(Grade.student_id == self.student.id).all():
+        for grade in sesja.query(Grade).filter(Grade.student_id == self.student.id, Grade.subject_id == self.subject.id).all():
             category_name = sesja.query(GradeCategory.name).filter(GradeCategory.id == grade.grade_category_id).one()
             self.grade_list.insert(i, (str(grade.value) + " (" + category_name[0] + ")"))
             self.grade_list_obj.append(grade)
