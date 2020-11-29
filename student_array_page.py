@@ -64,7 +64,9 @@ class Students_array(tk.Frame):
         #print(self.students_obj_list[0].first_name)
 
         back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back())
-        back_button.grid(row = x+2, column = 0)
+        back_button.grid(row = x+3, column = 0)
         edit_students_button = tk.Button(self, text="Edytuj listę studentów", command=lambda: master.navigate_to(Student_Choose, group))
-        edit_students_button.grid(row = x+3, column = 0)
+        edit_students_button.grid(row = x+2, column = 0)
+        edit_students_button = tk.Button(self, text="Zarządzaj ocenami", command=lambda: master.navigate_to(Student_Choose, group, subject))
+        edit_students_button.grid(row = x+2, column = 1)
 
