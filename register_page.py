@@ -12,7 +12,7 @@ class Students_array(tk.Frame):
         self.subject = subject
 
         self.students_obj_list = []
-        for student in sesja.query(Student).filter(Student.group_id == self.group.id).order_by(Student.last_name).all():
+        for student in sesja.query(Student).filter(Student.group_id == self.group.id).all():
             self.students_obj_list.append(student)
         
         self.grade_categories_list = []
@@ -65,7 +65,6 @@ class Students_array(tk.Frame):
 
         back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back())
         back_button.grid(row = x+2, column = 0)
-
-        edit_student_button = tk.Button(self, text="Edytuj listę studentów", command=lambda: master.navigate_to(Student_Choose, group))
-        edit_student_button.grid(row = x+3, column = 0)
+        edit_students_button = tk.Button(self, text="Edytuj listę studentów", command=lambda: master.navigate_to(Student_Choose, group))
+        edit_students_button.grid(row = x+3, column = 0)
 

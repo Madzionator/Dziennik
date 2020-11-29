@@ -20,7 +20,7 @@ class Student_Choose(tk.Frame):
 
         def StudentEdit(event):
             self.student_choice = self.get_choice() 
-            self.master.navigate_to(Student_Edit, self.student_choice, self.group)
+            self.master.navigate_to(Student_Edit, self.student_choice)
 
         self.student_list.bind('<<ListboxSelect>>', StudentSelect)
         self.student_list.bind('<Double-1>', StudentEdit)
@@ -58,5 +58,5 @@ class Student_Choose(tk.Frame):
         if self.student_choice == 0:
             msb.showwarning("Błąd", "Nie wybrano studenta.")
             return
-        self.master.navigate_to(Student_Edit, self.student_choice, self.group)
+        self.master.navigate_to(Student_Edit, self.student_choice)
 

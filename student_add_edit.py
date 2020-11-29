@@ -9,7 +9,7 @@ class Student_Add(tk.Frame):
         tk.Label(self, text="Imię studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
         self.first_name_entry = tk.Entry(self)
         self.first_name_entry.pack(anchor = 'w')
-        
+
         tk.Label(self, text="Nazwisko studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
         self.last_name_entry = tk.Entry(self)
         self.last_name_entry.pack(anchor = 'w')
@@ -49,22 +49,21 @@ class Student_Add(tk.Frame):
         self.master.go_back()
 
 class Student_Edit(tk.Frame):
-    def __init__(self, master, student, group):
+    def __init__(self, master, student):
         tk.Frame.__init__(self, master)
-
+ 
         self.master = master
-        self.group = group
         self.student = student
 
         tk.Label(self, text="Imię studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
         self.first_name_entry = tk.Entry(self)
         self.first_name_entry.pack(anchor = 'w')
-        self.first_name_entry.insert(0, student.first_name)
+        self.first_name_entry.insert(0, self.student.first_name)
 
         tk.Label(self, text="Nazwisko studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
         self.last_name_entry = tk.Entry(self)
         self.last_name_entry.pack(anchor = 'w')
-        self.last_name_entry.insert(0, student.last_name)
+        self.last_name_entry.insert(0, self.student.last_name)
 
         tk.Button(self, text="Zapisz", command = self.save).pack()
         tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
@@ -92,7 +91,7 @@ class Student_Edit(tk.Frame):
         elif len(last_name_str) > 20:
             msb.showwarning("Błąd", "Wprowadzone nazwisko jest za długie.")
             return
-
+        
         sesja.query(Student).filter(Student.id == self.student.id).update({Student.first_name: first_name_str, Student.last_name: last_name_str})
         sesja.commit()
         self.master.go_back()
