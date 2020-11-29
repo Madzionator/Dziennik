@@ -1,5 +1,6 @@
 from Baza import sesja, Student, Subject, Grade, GradeCategory
 import tkinter as tk
+import tkinter.ttk as ttk
 from tkinter.simpledialog import askfloat
 from tkinter import messagebox as msb
 
@@ -92,5 +93,61 @@ class Grade_Add(tk.Frame):
         tk.Label(self, text="Wybierz kategorię").pack(side="top", fill="x", pady = 4, anchor = 'w')
         self.student = student
         self.subject = subject
+        self.master = master
 
+        self.cb_value = tk.StringVar()     
+        self.combobox_grade_categories = ttk.Combobox(self, textvariable = self.cb_value, state="readonly")
+        self.combobox_grade_categories.pack()
+        grade_categories_obj = []
+        grade_categories = []
+        for category in sesja.query(GradeCategory).all():
+            grade_categories_obj.append(category)
+            grade_categories.append(category.name)
+        self.combobox_grade_categories['values'] = grade_categories
+        self.combobox_grade_categories.current(0)
+        self.category_choice = 1
+        self.combobox_grade_categories.bind("<<ComboboxSelected>>", self.select_category)
+
+        tk.Label(self, text="Podaj ocenę").pack(fill="x", pady = 4, anchor = 'w')
+        self.value_entry = tk.Entry(self)
+        self.value_entry.pack(anchor = 'w')
+
+        tk.Button(self, text="Zapisz", command=self.save).pack()
         tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
+    
+    def select_category(self, event):
+        str_choice = self.cb_value.get()
+        int_choice = sesja.query(GradeCategory.id).filter(GradeCategory.name == str_choice).one()
+        self.category_choice = int_choice[0]
+
+    def save(self):
+
+        def too_much_precision(value):
+            str_value = str(value)
+            for i in range(len(str_value)):
+                if str_value[i] == '.':
+                    if i+1 < len(str_value)-1:
+                        return 1
+                    if len(str_value) > i+1 and str_value[i+1] != '5' and str_value[i+1] != '0':
+                        return 1
+            return 0
+
+        value_str = self.value_entry.get()
+        if len(value_str) == 0:
+            msb.showwarning("Błąd", "Nie podano wartości oceny.")
+            return
+
+        try:
+            value_float = float(value_str)
+        except TypeError:
+            msb.showwarning("Błąd", "Wprowadzona wartość oceny jest nieprawidłowa.")
+            return
+
+        if value_float > 5 or value_float < 2 or too_much_precision(value_float):
+            msb.showwarning("Błąd", "Wprowadzona wartość oceny jest nieprawidłowa.")
+            return
+
+        sesja.add(Grade(value = value_float, grade_category_id = self.category_choice, student_id = self.student.id, subject_id = self.subject.id))
+        sesja.commit()
+        self.master.go_back()
+        
