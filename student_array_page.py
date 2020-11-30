@@ -2,13 +2,13 @@ from Baza import sesja, Subject, Group, SubjectGroup, Grade, GradeCategory, Stud
 import tkinter as tk
 from student_choose import StudentChoose
 from add_grade_series_page import AddGradeSeries
-#from tkinter import messagebox as msb
+from tkinter import*
 
 class Students_array(tk.Frame):
     def __init__(self, master, subject, group):
         tk.Frame.__init__(self, master)
-        label = tk.Label(self, text=("Przedmiot: " + subject.name + "\nGrupa: " + group.name), font = 2)
-        label.grid(row = 0)
+        label = tk.Label(self, text=("Przedmiot: " + subject.name + "\nGrupa: " + group.name), font=("Calibri", 20))
+        label.grid(row = 0, sticky=N+E+S+W, columnspan = 6)
         self.group = group
         self.subject = subject
 
@@ -24,21 +24,21 @@ class Students_array(tk.Frame):
         x = len(self.grade_categories_list) + 1
 
         for i in range(2, y):
-            e = tk.Text(self, height = 1, width = 40)
-            e.grid(row=i, column=0)
+            e = tk.Text(self, height = 2, wrap='word')
+            e.grid(row=i, column=0, sticky=N+E+S+W)
             e.insert(tk.END, (self.students_obj_list[i-2].last_name + " " + self.students_obj_list[i-2].first_name))
             e.config(state='disabled')
 
         for i in range(1, x):
-            e = tk.Text(self, height = 1, width = 40)
-            e.grid(row=1, column=i)
+            e = tk.Text(self, height = 1)
+            e.grid(row=1, column=i, sticky=N+E+S+W)
             e.insert(tk.END, (self.grade_categories_list[i-1].name))
             e.config(state='disabled')
 
         for i in range(1, x):
             for j in range(2, y):
-                e = tk.Text(self, height = 1, wrap = 'word', width = 40)
-                e.grid(row=j, column=i)
+                e = tk.Text(self, height = 2, wrap = 'word')
+                e.grid(row=j, column=i, sticky=N+E+S+W)
                 grades = []
                 for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[j-2].id, Grade.grade_category_id == self.grade_categories_list[i-1].id, Grade.subject_id == self.subject.id).all():
                     grades.append(grade)
@@ -46,12 +46,12 @@ class Students_array(tk.Frame):
                 e.config(state='disabled')
         
         average_label = tk.Text(self, height = 1, width = 10)
-        average_label.grid(column = x, row = 1)
+        average_label.grid(column = x, row = 1, sticky=N+E+S+W)
         average_label.insert(tk.END, "Średnia")
         average_label.config(state='disabled')
         for i in range(2, y):
-                e = tk.Text(self, height = 1, width = 10)
-                e.grid(row=i, column=x)
+                e = tk.Text(self, height = 2)
+                e.grid(row=i, column=x, sticky=N+E+S+W)
                 student_grades = []
                 for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[i-2].id, Grade.subject_id == self.subject.id):
                     student_grades.append(grade.value)
@@ -61,14 +61,17 @@ class Students_array(tk.Frame):
                 e.insert(tk.END, iAverage)
                 e.config(state='disabled')
 
+        for i in range(0, x):
+            self.grid_columnconfigure(i, weight = 2, uniform=True)
+        self.grid_columnconfigure(x, weight = 1, uniform=True)
 
-        #print(self.students_obj_list[0].first_name)
-
+        empty_label = tk.Label(self)
+        empty_label.grid(row = y+2, column = x)
+        edit_students_button = tk.Button(self, text="Edytuj listę studentów", height = 2, command=lambda: master.navigate_to(StudentChoose, group))
+        edit_students_button.grid(row = y+3, column = 0, sticky=N+E+S+W)
+        edit_grades_button = tk.Button(self, text="Zarządzaj ocenami", height = 2, command=lambda: master.navigate_to(StudentChoose, group, subject))
+        edit_grades_button.grid(row = y+3, column = 1, sticky=N+E+S+W)
+        add_series_button = tk.Button(self, text="Dodaj serię ocen", height = 2, command=lambda: master.navigate_to(AddGradeSeries, group, subject))
+        add_series_button.grid(row = y+3, column = 2, sticky=N+E+S+W)
         back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back())
-        back_button.grid(row = x+3, column = 0)
-        edit_students_button = tk.Button(self, text="Edytuj listę studentów", command=lambda: master.navigate_to(StudentChoose, group))
-        edit_students_button.grid(row = x+2, column = 0)
-        edit_grades_button = tk.Button(self, text="Zarządzaj ocenami", command=lambda: master.navigate_to(StudentChoose, group, subject))
-        edit_grades_button.grid(row = x+2, column = 1)
-        add_series_button = tk.Button(self, text="Dodaj serię ocen", command=lambda: master.navigate_to(AddGradeSeries, group, subject))
-        add_series_button.grid(row = x+2, column = 2)
+        back_button.grid(row = y+4, column = 0, sticky=N+E+S+W)

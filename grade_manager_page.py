@@ -19,7 +19,6 @@ class Grade_Manager(tk.Frame):
         self.grade_choice = 0
         def GradeSelect(event):
             self.grade_choice = self.get_grade_choice() 
-            print(self.grade_choice.value)
 
         def GradeEdit(event):
             self.grade_choice = self.get_grade_choice() 

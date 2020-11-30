@@ -34,9 +34,9 @@ class Group_Choice(tk.Frame):
         self.group_list.bind('<Double-1>', SubjectOpen)
 
         tk.Button(self, text="Otwórz", command= self.try_open).pack()
-        tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Group_Add, subject)).pack()
+        tk.Button(self, text="Dodaj grupę", command=lambda: master.navigate_to(Group_Add, subject)).pack()
         tk.Button(self, text="Edytuj", command= self.try_edit).pack()
-        tk.Button(self, text="Usuń stąd grupę", command=self.delete_subject_here).pack()
+        tk.Button(self, text="Usuń grupę z tego przedmiotu", command=self.delete_subject_here).pack()
         tk.Button(self, text="Usuń grupę całkowicie", command=self.delete_subject_everywhere).pack()
            
         tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()

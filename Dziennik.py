@@ -11,6 +11,9 @@ class frame_data:
 class Application(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
+        self.title('Dziennik')
+        self.geometry('1400x600') #X Y
+        self.minsize(width = 550, height = 260)
         self.frame_stack = []
         self.current_frame = None
         self.navigate_to(StartPage)
