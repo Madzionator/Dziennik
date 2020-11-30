@@ -13,7 +13,7 @@ class Students_array(tk.Frame):
         self.subject = subject
 
         self.students_obj_list = []
-        for student in sesja.query(Student).filter(Student.group_id == self.group.id).order_by(Student.last_name).all():
+        for student in sesja.query(Student).filter(Student.group_id == self.group.id).order_by(Student.last_name, Student.first_name).all():
             self.students_obj_list.append(student)
         
         self.grade_categories_list = []
@@ -55,7 +55,7 @@ class Students_array(tk.Frame):
                 student_grades = []
                 for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[i-2].id, Grade.subject_id == self.subject.id):
                     student_grades.append(grade.value)
-                iAverage = 0
+                iAverage = 0.0
                 if len(student_grades) > 0:
                     iAverage = round(sum(student_grades)/len(student_grades), 2)
                 e.insert(tk.END, iAverage)

@@ -57,7 +57,7 @@ class StudentChoose(tk.Frame):
         self.student_list.delete(0, tk.END)
         self.student_list_obj = []
         i = 0
-        for student in sesja.query(Student).filter(Student.group_id == self.group.id).order_by(Student.last_name).all():
+        for student in sesja.query(Student).filter(Student.group_id == self.group.id).order_by(Student.last_name, Student.first_name).all():
             self.student_list.insert(i, (student.last_name + " " + student.first_name))
             self.student_list_obj.append(student)
             i+=1
