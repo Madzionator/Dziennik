@@ -80,33 +80,8 @@ BazaModel.metadata.create_all(baza)
 BDSesja = sessionmaker(bind=baza)
 sesja = BDSesja()
 
-if not sesja.query(Subject).count():
-    sesja.add(Subject(name = 'WDP'))
-    sesja.add(Subject(name = 'C'))
-
-if not sesja.query(Group).count():
-    sesja.add(Group(name = 'EF'))
-    sesja.add(Group(name = '2'))
-
-if not sesja.query(SubjectGroup).count():
-    sesja.add(SubjectGroup(subject_id = 1, group_id = 1))
-    sesja.add(SubjectGroup(subject_id = 2, group_id = 1))
-    sesja.add(SubjectGroup(subject_id = 2, group_id = 2))
-
-if not sesja.query(Student).count():
-    sesja.add(Student(first_name='Kryha', last_name='Szura', group_id = 1))
-    sesja.add(Student(first_name='Madzionator', last_name='Madzik', group_id = 1))
-
 if not sesja.query(GradeCategory).count():
     sesja.add(GradeCategory(name='zadanie'))
     sesja.add(GradeCategory(name='sprawozdanie'))
     sesja.add(GradeCategory(name='test'))
     sesja.add(GradeCategory(name='egzamin'))
-
-if not sesja.query(Grade).count():
-    sesja.add(Grade(value = 5, grade_category_id = 4, student_id = 2, subject_id = 2))
-    sesja.add(Grade(value = 5, grade_category_id = 4, student_id = 2, subject_id = 1))
-    sesja.add(Grade(value = 5, grade_category_id = 3, student_id = 2, subject_id = 1))
-    sesja.add(Grade(value = 2, grade_category_id = 4, student_id = 1, subject_id = 2))
-    sesja.add(Grade(value = 3, grade_category_id = 3, student_id = 1, subject_id = 1))
-    sesja.add(Grade(value = 3.5, grade_category_id = 3, student_id = 1, subject_id = 1))
