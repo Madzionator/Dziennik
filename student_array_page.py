@@ -7,7 +7,7 @@ from tkinter import*
 class Students_array(tk.Frame):
     def __init__(self, master, subject, group):
         tk.Frame.__init__(self, master)
-        label = tk.Label(self, text=("Przedmiot: " + subject.name + "\nGrupa: " + group.name), font=("Calibri", 20))
+        label = tk.Label(self, text=(" Przedmiot: " + subject.name + "\nGrupa: " + group.name), font=("Calibri", 20), anchor = 'w')
         label.grid(row = 0, sticky=N+E+S+W, columnspan = 6)
         self.group = group
         self.subject = subject
@@ -24,13 +24,13 @@ class Students_array(tk.Frame):
         x = len(self.grade_categories_list) + 1
 
         for i in range(2, y):
-            e = tk.Text(self, height = 2, wrap='word')
+            e = tk.Text(self, height = 2, wrap='word', font = ("Calibri", 12))
             e.grid(row=i, column=0, sticky=N+E+S+W)
             e.insert(tk.END, (self.students_obj_list[i-2].last_name + " " + self.students_obj_list[i-2].first_name))
             e.config(state='disabled')
 
         for i in range(1, x):
-            e = tk.Text(self, height = 1)
+            e = tk.Text(self, height = 1, font = ("Calibri", 12))
             e.grid(row=1, column=i, sticky=N+E+S+W)
             e.insert(tk.END, (self.grade_categories_list[i-1].name))
             e.config(state='disabled')

@@ -3,7 +3,7 @@ import tkinter as tk
 from student_add_edit import Student_Add, Student_Edit
 from grade_manager_page import Grade_Manager
 from tkinter import messagebox as msb
-
+from tkinter import*
 
 class StudentChoose(tk.Frame):
     def __init__(self, master, group, subject):
@@ -13,14 +13,14 @@ class StudentChoose(tk.Frame):
         self.subject = subject
 
         if subject == None:
-            tk.Label(self, text=("Studenci grupy: " + self.group.name)).pack(side="top", fill="x", pady = 4, anchor = 'w')
+            tk.Label(self, text=("Studenci grupy: " + self.group.name), font = ("Calibri", 16)).grid(row = 0, columnspan=3, sticky=N+S+W)
         else:
-            tk.Label(self, text="Zarządzaj ocenami studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
+            tk.Label(self, text="Zarządzaj ocenami studenta: ", font = ("Calibri", 16)).grid(row = 0, columnspan=3, sticky=N+S+W)
 
-        self.student_list = tk.Listbox(self, font = 2)
+        self.student_list = tk.Listbox(self, font = ("Calibri", 14), width=150)
         self.student_list_obj = []
         self.load_student()
-        self.student_list.pack(anchor = 'w')
+        self.student_list.grid(row = 1, columnspan=3, sticky=N+E+S+W)
 
         if subject == None: #for student manager
             self.student_choice = 0
@@ -35,9 +35,9 @@ class StudentChoose(tk.Frame):
             self.student_list.bind('<<ListboxSelect>>', StudentSelect)
             self.student_list.bind('<Double-1>', StudentEdit)
 
-            tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Student_Add, self.group)).pack()
-            tk.Button(self, text="Edytuj", command= self.try_edit).pack()
-            tk.Button(self, text="Usuń", command= self.try_delete).pack()
+            tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Student_Add, self.group), height=2, font = ("Calibri", 12)).grid(row = 2, column = 0, sticky=N+E+S+W)
+            tk.Button(self, text="Edytuj", command= self.try_edit, height=2, font = ("Calibri", 12)).grid(row = 2, column = 1, sticky=N+E+S+W)
+            tk.Button(self, text="Usuń", command= self.try_delete, height=2, font = ("Calibri", 12)).grid(row = 2, column = 2, sticky=N+E+S+W)
 
         else: # for grade manager
             self.student_choice = 0
@@ -49,7 +49,9 @@ class StudentChoose(tk.Frame):
             self.student_list.bind('<<ListboxSelect>>', StudentGrades)
             self.student_list.bind('<Double-1>', StudentGrades)
 
-        tk.Button(self, text="Wróc", command=lambda: master.go_back()).pack()
+        tk.Button(self, text="Wróc", command=lambda: master.go_back(), height = 2, font = ("Calibri", 12)).grid(row = 3, column = 0, sticky=N+E+S+W)
+        for i in range(0, 3):
+            self.grid_columnconfigure(i, weight = 2, uniform=True)
 
     def load_student(self):
         self.student_list.delete(0, tk.END)
