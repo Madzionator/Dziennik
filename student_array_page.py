@@ -73,5 +73,5 @@ class Students_array(tk.Frame):
         edit_grades_button.grid(row = y+3, column = 1, sticky=N+E+S+W)
         add_series_button = tk.Button(self, text="Dodaj serię ocen", height = 2, command=lambda: master.navigate_to(AddGradeSeries, group, subject))
         add_series_button.grid(row = y+3, column = 2, sticky=N+E+S+W)
-        back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back())
+        back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back(), height=2)
         back_button.grid(row = y+4, column = 0, sticky=N+E+S+W)

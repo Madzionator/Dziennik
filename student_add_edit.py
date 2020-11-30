@@ -1,24 +1,28 @@
 from Baza import sesja, Group, Student
 import tkinter as tk
+from tkinter import*
 from tkinter import messagebox as msb
 
 class Student_Add(tk.Frame):
     def __init__(self, master, group):
         tk.Frame.__init__(self, master)
+        tk.Label(self, text="Dodaj studenta", font=("Calibri", 14)).grid(row = 0, columnspan=2)
+        tk.Label(self, text="Imię studenta", font=("Calibri", 12)).grid(row = 1, columnspan=2)
+        self.first_name_entry = tk.Entry(self, font=("Calibri", 12))
+        self.first_name_entry.grid(row = 2, columnspan=2)
 
-        tk.Label(self, text="Imię studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
-        self.first_name_entry = tk.Entry(self)
-        self.first_name_entry.pack(anchor = 'w')
-
-        tk.Label(self, text="Nazwisko studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
-        self.last_name_entry = tk.Entry(self)
-        self.last_name_entry.pack(anchor = 'w')
+        tk.Label(self, text="Nazwisko studenta: ", font=("Calibri", 12)).grid(row = 3, columnspan=2)
+        self.last_name_entry = tk.Entry(self, font=("Calibri", 12))
+        self.last_name_entry.grid(row = 4, columnspan=2)
 
         self.master = master
         self.group = group
 
-        tk.Button(self, text="Zapisz", command = self.save).pack()
-        tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
+        tk.Button(self, text="Zapisz", command = self.save, font=("Calibri", 10)).grid(row = 5, column=1, sticky=N+E+S+W)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 5, column=0, sticky=N+E+S+W)
+
+        for i in range(0, 2):
+            self.grid_columnconfigure(i, weight = 2, uniform=True)
 
     def save(self):
         first_name_str = self.first_name_entry.get()
@@ -55,18 +59,22 @@ class Student_Edit(tk.Frame):
         self.master = master
         self.student = student
 
-        tk.Label(self, text="Imię studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
-        self.first_name_entry = tk.Entry(self)
-        self.first_name_entry.pack(anchor = 'w')
+        tk.Label(self, text="Edytuj studenta", font=("Calibri", 14)).grid(row = 0, columnspan=2)
+        tk.Label(self, text="Imię studenta", font=("Calibri", 12)).grid(row = 1, columnspan=2)
+        self.first_name_entry = tk.Entry(self, font=("Calibri", 12))
+        self.first_name_entry.grid(row = 2, columnspan=2)
         self.first_name_entry.insert(0, self.student.first_name)
 
-        tk.Label(self, text="Nazwisko studenta: ").pack(side="top", fill="x", pady = 4, anchor = 'w')
-        self.last_name_entry = tk.Entry(self)
-        self.last_name_entry.pack(anchor = 'w')
+        tk.Label(self, text="Nazwisko studenta: ", font=("Calibri", 12)).grid(row = 3, columnspan=2)
+        self.last_name_entry = tk.Entry(self, font=("Calibri", 12))
+        self.last_name_entry.grid(row = 4, columnspan=2)
         self.last_name_entry.insert(0, self.student.last_name)
 
-        tk.Button(self, text="Zapisz", command = self.save).pack()
-        tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
+        tk.Button(self, text="Zapisz", command = self.save, font=("Calibri", 10)).grid(row = 5, column=1, sticky=N+E+S+W)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 5, column=0, sticky=N+E+S+W)
+
+        for i in range(0, 2):
+            self.grid_columnconfigure(i, weight = 2, uniform=True)
 
     def save(self):
         first_name_str = self.first_name_entry.get()

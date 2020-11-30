@@ -1,20 +1,21 @@
 from Baza import sesja, Student, Subject, Grade, GradeCategory
 import tkinter as tk
 import tkinter.ttk as ttk
+from tkinter import*
 from tkinter.simpledialog import askfloat
 from tkinter import messagebox as msb
 
 class Grade_Manager(tk.Frame):
     def __init__(self, master, student, subject):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text= ("Oceny studenta: " + student.last_name + " " + student.first_name)).pack(side="top", fill="x", pady = 4, anchor = 'w')
+        tk.Label(self, text= ("Oceny studenta: " + student.last_name + " " + student.first_name), font=("Calibri", 16)).grid(row = 0, columnspan = 3, sticky=N+S+W)
         self.student = student
         self.subject = subject
 
-        self.grade_list = tk.Listbox(self, font = 2)
+        self.grade_list = tk.Listbox(self, font = ("Calibri", 13), width=100)
+        self.grade_list.grid(row = 1, columnspan=3)
         self.grade_list_obj = []
         self.load_grade()
-        self.grade_list.pack(anchor = 'w')
 
         self.grade_choice = 0
         def GradeSelect(event):
@@ -28,11 +29,13 @@ class Grade_Manager(tk.Frame):
         self.grade_list.bind('<<ListboxSelect>>', GradeSelect)
         self.grade_list.bind('<Double-1>', GradeEdit)
 
-        tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Grade_Add, self.student, self.subject)).pack()
-        tk.Button(self, text="Edytuj", command= self.try_edit).pack()
-        tk.Button(self, text="Usuń", command= self.try_delete).pack()
+        tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Grade_Add, self.student, self.subject), font=("Calibri", 10)).grid(row = 2, column = 0, sticky=N+E+S+W)
+        tk.Button(self, text="Edytuj", command= self.try_edit, font=("Calibri", 10), height = 2).grid(row = 2, column = 1, sticky=N+E+S+W)
+        tk.Button(self, text="Usuń", command= self.try_delete, font=("Calibri", 10), height = 2).grid(row = 2, column = 2, sticky=N+E+S+W)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height = 2).grid(row = 3, column = 0, sticky=N+E+S+W)
 
-        tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
+        for i in range(0, 3):
+            self.grid_columnconfigure(i, weight = 2, uniform=True)
 
     def load_grade(self):
         self.grade_list.delete(0, tk.END)
@@ -89,14 +92,14 @@ class Grade_Manager(tk.Frame):
 class Grade_Add(tk.Frame):
     def __init__(self, master, student, subject):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text="Wybierz kategorię").pack(side="top", fill="x", pady = 4, anchor = 'w')
+        tk.Label(self, text="Wybierz kategorię", font=("Calibri", 12)).grid(row = 0, columnspan = 2, sticky=N+E+S+W)
         self.student = student
         self.subject = subject
         self.master = master
 
         self.cb_value = tk.StringVar()     
-        self.combobox_grade_categories = ttk.Combobox(self, textvariable = self.cb_value, state="readonly")
-        self.combobox_grade_categories.pack()
+        self.combobox_grade_categories = ttk.Combobox(self, textvariable = self.cb_value, state="readonly", font=("Calibri", 12))
+        self.combobox_grade_categories.grid(row = 1, columnspan = 2, sticky=N+E+S+W)
         grade_categories_obj = []
         grade_categories = []
         for category in sesja.query(GradeCategory).all():
@@ -107,12 +110,15 @@ class Grade_Add(tk.Frame):
         self.category_choice = 1
         self.combobox_grade_categories.bind("<<ComboboxSelected>>", self.select_category)
 
-        tk.Label(self, text="Podaj ocenę").pack(fill="x", pady = 4, anchor = 'w')
-        self.value_entry = tk.Entry(self)
-        self.value_entry.pack(anchor = 'w')
+        tk.Label(self, text="Podaj ocenę", font=("Calibri", 12)).grid(row = 2, columnspan = 2, sticky=N+E+S+W)
+        self.value_entry = tk.Entry(self, font=("Calibri", 12))
+        self.value_entry.grid(row = 3, columnspan = 2, sticky=N+E+S+W)
 
-        tk.Button(self, text="Zapisz", command=self.save).pack()
-        tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
+        tk.Button(self, text="Zapisz", command=self.save, font=("Calibri", 10)).grid(row = 4, column = 1, sticky=N+E+S+W)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 4, column = 0, sticky=N+E+S+W)
+
+        for i in range(0, 2):
+            self.grid_columnconfigure(i, weight = 2, uniform=True)
     
     def select_category(self, event):
         str_choice = self.cb_value.get()

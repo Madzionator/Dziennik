@@ -17,7 +17,7 @@ class StudentChoose(tk.Frame):
         else:
             tk.Label(self, text="Zarządzaj ocenami studenta: ", font = ("Calibri", 16)).grid(row = 0, columnspan=3, sticky=N+S+W)
 
-        self.student_list = tk.Listbox(self, font = ("Calibri", 14), width=150)
+        self.student_list = tk.Listbox(self, font = ("Calibri", 13), width=150)
         self.student_list_obj = []
         self.load_student()
         self.student_list.grid(row = 1, columnspan=3, sticky=N+E+S+W)
@@ -35,9 +35,9 @@ class StudentChoose(tk.Frame):
             self.student_list.bind('<<ListboxSelect>>', StudentSelect)
             self.student_list.bind('<Double-1>', StudentEdit)
 
-            tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Student_Add, self.group), height=2, font = ("Calibri", 12)).grid(row = 2, column = 0, sticky=N+E+S+W)
-            tk.Button(self, text="Edytuj", command= self.try_edit, height=2, font = ("Calibri", 12)).grid(row = 2, column = 1, sticky=N+E+S+W)
-            tk.Button(self, text="Usuń", command= self.try_delete, height=2, font = ("Calibri", 12)).grid(row = 2, column = 2, sticky=N+E+S+W)
+            tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Student_Add, self.group), height=2, font = ("Calibri", 10)).grid(row = 2, column = 0, sticky=N+E+S+W)
+            tk.Button(self, text="Edytuj", command= self.try_edit, height=2, font = ("Calibri", 10)).grid(row = 2, column = 1, sticky=N+E+S+W)
+            tk.Button(self, text="Usuń", command= self.try_delete, height=2, font = ("Calibri", 10)).grid(row = 2, column = 2, sticky=N+E+S+W)
 
         else: # for grade manager
             self.student_choice = 0
@@ -49,7 +49,7 @@ class StudentChoose(tk.Frame):
             self.student_list.bind('<<ListboxSelect>>', StudentGrades)
             self.student_list.bind('<Double-1>', StudentGrades)
 
-        tk.Button(self, text="Wróc", command=lambda: master.go_back(), height = 2, font = ("Calibri", 12)).grid(row = 3, column = 0, sticky=N+E+S+W)
+        tk.Button(self, text="Wróc", command=lambda: master.go_back(), height = 2, font = ("Calibri", 10)).grid(row = 3, column = 0, sticky=N+E+S+W)
         for i in range(0, 3):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
 
