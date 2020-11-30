@@ -1,14 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox as msb
+from tkinter import*
 from Baza import sesja, Subject
 from subject_add_edit import Subject_Add, Subject_Edit
 from group_page import Group_Choice
-
-def unpack(subject_list):
-    finally_list = []
-    for i in subject_list:
-        finally_list.append(i[0])
-    return finally_list
 
 class StartPage(tk.Frame):
     def __init__(self, master):
@@ -16,6 +11,7 @@ class StartPage(tk.Frame):
         tk.Label(self, text = "Przedmioty: ", font = 24).pack(anchor = 'w')
 
         self.subject_list = tk.Listbox(self, font = 2)
+        self.subject_obj_list = []
         self.load_subject()
         self.subject_list.pack(anchor = 'w')
 
@@ -39,16 +35,17 @@ class StartPage(tk.Frame):
 
     def load_subject(self):
         self.subject_list.delete(0, tk.END)
-        subjects = unpack(sesja.query(Subject.name).order_by(Subject.name).all())
-        for i in range(len(subjects)):
-            self.subject_list.insert(i, subjects[i])
+        self.subject_obj_list = []
+        i=0
+        for subject in sesja.query(Subject).order_by(Subject.name).all():
+            self.subject_obj_list.append(subject)
+            self.subject_list.insert(i, subject.name)
+            i+=1
 
     def get_choice(self):
         try:
             choice = self.subject_list.curselection()
-            subjects = unpack(sesja.query(Subject.name).order_by(Subject.name).all())
-            str_choice = subjects[choice[0]]
-            return sesja.query(Subject.id, Subject.name).filter(Subject.name == str_choice).one()
+            return self.subject_obj_list[choice[0]]
         except IndexError: 
             return 0
 

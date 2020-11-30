@@ -26,8 +26,7 @@ class Group_Add(tk.Frame):
         elif len(name_str)>100:
             msb.showwarning("Błąd", "Wprowadzona nazwa jest za długa.")
             return
-        exists = sesja.query(Group.name).filter_by(name = name_str).scalar() # None
-        if exists:
+        if sesja.query(Group.name).filter_by(name = name_str).scalar():
             msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
         else:
             sesja.add(Group(name = name_str))
@@ -61,8 +60,7 @@ class Group_Edit(tk.Frame):
             msb.showwarning("Błąd", "Wprowadzona nazwa jest za długa.")
             return
         if name_str != self.group.name:
-            exists = sesja.query(Subject.name).filter_by(name = name_str).scalar() # None
-            if exists:
+            if sesja.query(Group.name).filter_by(name = name_str).scalar():
                 msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
                 return        
         sesja.query(Group).filter(Group.id == self.group.id).update({Group.name: name_str})
