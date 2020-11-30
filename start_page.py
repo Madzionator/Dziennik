@@ -8,12 +8,12 @@ from group_page import Group_Choice
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text = "Przedmioty: ", font = 24).pack(anchor = 'w')
+        tk.Label(self, text = "Przedmioty: ", font = ("Calibri", 14)).grid(row=0, columnspan=2, sticky=N+E+S+W)
 
-        self.subject_list = tk.Listbox(self, font = 2)
+        self.subject_list = tk.Listbox(self, font = ("Calibri", 13), width=100)
         self.subject_obj_list = []
         self.load_subject()
-        self.subject_list.pack(anchor = 'w')
+        self.subject_list.grid(row=1, columnspan=2, sticky=N+E+S+W)
 
         self.choice = 0
         def SubjectSelect(event):
@@ -28,10 +28,13 @@ class StartPage(tk.Frame):
         self.subject_list.bind('<Double-1>', SubjectOpen)
         self.master = master
 
-        tk.Button(self, text="Otwórz", command= self.try_open).pack()
-        tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Subject_Add)).pack()
-        tk.Button(self, text="Edytuj", command= self.try_edit).pack()
-        tk.Button(self, text="Usuń", command=self.delete_subject).pack()
+        tk.Button(self, text="Otwórz", command= self.try_open, height=2).grid(row=2, column=0, sticky=N+E+S+W)
+        tk.Button(self, text="Edytuj", command= self.try_edit, height=2).grid(row=2, column=1, sticky=N+E+S+W)
+        tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Subject_Add), height=2).grid(row=3, column=0, sticky=N+E+S+W)
+        tk.Button(self, text="Usuń", command=self.delete_subject, height=2).grid(row=3, column=1, sticky=N+E+S+W)
+
+        for i in range(0, 2):
+            self.grid_columnconfigure(i, weight = 1, uniform=True)
 
     def load_subject(self):
         self.subject_list.delete(0, tk.END)
