@@ -18,8 +18,8 @@ class Student_Add(tk.Frame):
         self.master = master
         self.group = group
 
-        tk.Button(self, text="Zapisz", command = self.save, font=("Calibri", 10)).grid(row = 5, column=1, sticky=N+E+S+W)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 5, column=0, sticky=N+E+S+W)
+        tk.Button(self, text="Zapisz", command = self.save, font=("Calibri", 10)).grid(row = 5, column=1, sticky=N+E+S+W, pady=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 5, column=0, sticky=N+E+S+W, pady=3)
 
         for i in range(0, 2):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
@@ -70,8 +70,8 @@ class Student_Edit(tk.Frame):
         self.last_name_entry.grid(row = 4, columnspan=2)
         self.last_name_entry.insert(0, self.student.last_name)
 
-        tk.Button(self, text="Zapisz", command = self.save, font=("Calibri", 10)).grid(row = 5, column=1, sticky=N+E+S+W)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 5, column=0, sticky=N+E+S+W)
+        tk.Button(self, text="Zapisz", command = self.save, font=("Calibri", 10)).grid(row = 5, column=1, sticky=N+E+S+W, pady=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 5, column=0, sticky=N+E+S+W, pady=3)
 
         for i in range(0, 2):
             self.grid_columnconfigure(i, weight = 2, uniform=True)

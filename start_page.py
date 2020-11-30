@@ -28,10 +28,10 @@ class StartPage(tk.Frame):
         self.subject_list.bind('<Double-1>', SubjectOpen)
         self.master = master
 
-        tk.Button(self, text="Otwórz", command= self.try_open, height=2).grid(row=2, column=0, sticky=N+E+S+W)
-        tk.Button(self, text="Edytuj", command= self.try_edit, height=2).grid(row=2, column=1, sticky=N+E+S+W)
-        tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Subject_Add), height=2).grid(row=3, column=0, sticky=N+E+S+W)
-        tk.Button(self, text="Usuń", command=self.delete_subject, height=2).grid(row=3, column=1, sticky=N+E+S+W)
+        tk.Button(self, text="Otwórz", command= self.try_open, height=2).grid(row=2, column=0, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Edytuj", command= self.try_edit, height=2).grid(row=2, column=1, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Dodaj nowy", command=lambda: master.navigate_to(Subject_Add), height=2).grid(row=3, column=0, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Usuń", command=self.delete_subject, height=2).grid(row=3, column=1, sticky=N+E+S+W, pady=3, padx=3)
 
         for i in range(0, 2):
             self.grid_columnconfigure(i, weight = 1, uniform=True)

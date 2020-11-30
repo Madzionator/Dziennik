@@ -28,13 +28,13 @@ class Group_Choice(tk.Frame):
         self.group_list.bind('<<ListboxSelect>>', GroupSelect)
         self.group_list.bind('<Double-1>', SubjectOpen)
 
-        tk.Button(self, text="Otwórz", command= self.try_open, height=2).grid(row = 3, column=0, columnspan=2, sticky=N+E+S+W)
-        tk.Button(self, text="Dodaj grupę", command=lambda: master.navigate_to(Group_Add, subject), height=2).grid(row = 3, column=4, columnspan=2, sticky=N+E+S+W)
-        tk.Button(self, text="Edytuj", command= self.try_edit, height=2).grid(row = 3, column=2, columnspan=2, sticky=N+E+S+W)
-        tk.Button(self, text="Usuń grupę z tego przedmiotu", command=self.delete_subject_here, height=2).grid(row = 4, column=0, columnspan=3, sticky=N+E+S+W)
-        tk.Button(self, text="Usuń grupę całkowicie", command=self.delete_subject_everywhere, height=2).grid(row = 4, column=3, columnspan=3, sticky=N+E+S+W)
+        tk.Button(self, text="Otwórz", command= self.try_open, height=2).grid(row = 3, column=0, columnspan=2, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Dodaj grupę", command=lambda: master.navigate_to(Group_Add, subject), height=2).grid(row = 3, column=4, columnspan=2, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Edytuj", command= self.try_edit, height=2).grid(row = 3, column=2, columnspan=2, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Usuń grupę z tego przedmiotu", command=self.delete_subject_here, height=2).grid(row = 4, column=0, columnspan=3, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Usuń grupę całkowicie", command=self.delete_subject_everywhere, height=2).grid(row = 4, column=3, columnspan=3, sticky=N+E+S+W, pady=3, padx=3)
            
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height=2).grid(row = 5, column=0, columnspan=2, sticky=N+E+S+W)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height=2).grid(row = 5, column=0, columnspan=2, sticky=N+E+S+W, pady=3, padx=3)
 
         for i in range(0, 6):
             self.grid_columnconfigure(i, weight = 2, uniform=True)

@@ -29,8 +29,8 @@ class Subject_Add(tk.Frame):
             group.grid(row=i, columnspan=2, sticky=N+S+W)
             i+=1
 
-        tk.Button(self, text="Zapisz", command = self.save, height=2).grid(row=i, column=1, sticky=N+E+S+W)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), height=2).grid(row=i, column=0, sticky=N+E+S+W)
+        tk.Button(self, text="Zapisz", command = self.save, height=2).grid(row=i, column=1, sticky=N+E+S+W, pady=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), height=2).grid(row=i, column=0, sticky=N+E+S+W, pady=3)
 
         for i in range(0, 6):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
@@ -90,8 +90,8 @@ class Subject_Edit(tk.Frame):
             group.grid(row=i, columnspan=2, sticky=N+S+W)
             i+=1
 
-        tk.Button(self, text="Zapisz", command = self.save, height=2).grid(row=i, column=1, sticky=N+E+S+W)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), height=2).grid(row=i, column=0, sticky=N+E+S+W)
+        tk.Button(self, text="Zapisz", command = self.save, height=2).grid(row=i, column=1, sticky=N+E+S+W, pady=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), height=2).grid(row=i, column=0, sticky=N+E+S+W, pady=3)
 
         for i in range(0, 6):
             self.grid_columnconfigure(i, weight = 2, uniform=True)

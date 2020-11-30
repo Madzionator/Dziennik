@@ -29,10 +29,10 @@ class Grade_Manager(tk.Frame):
         self.grade_list.bind('<<ListboxSelect>>', GradeSelect)
         self.grade_list.bind('<Double-1>', GradeEdit)
 
-        tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Grade_Add, self.student, self.subject), font=("Calibri", 10)).grid(row = 2, column = 0, sticky=N+E+S+W)
-        tk.Button(self, text="Edytuj", command= self.try_edit, font=("Calibri", 10), height = 2).grid(row = 2, column = 1, sticky=N+E+S+W)
-        tk.Button(self, text="Usuń", command= self.try_delete, font=("Calibri", 10), height = 2).grid(row = 2, column = 2, sticky=N+E+S+W)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height = 2).grid(row = 3, column = 0, sticky=N+E+S+W)
+        tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Grade_Add, self.student, self.subject), font=("Calibri", 10)).grid(row = 2, column = 0, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Edytuj", command= self.try_edit, font=("Calibri", 10), height = 2).grid(row = 2, column = 1, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Usuń", command= self.try_delete, font=("Calibri", 10), height = 2).grid(row = 2, column = 2, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height = 2).grid(row = 3, column = 0, sticky=N+E+S+W, pady=3, padx=3)
 
         for i in range(0, 3):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
@@ -65,24 +65,13 @@ class Grade_Manager(tk.Frame):
             sesja.commit()
 
     def try_edit(self):
-
-        def too_much_precision(value):
-            str_value = str(value)
-            for i in range(len(str_value)):
-                if str_value[i] == '.':
-                    if i+1 < len(str_value)-1:
-                        return 1
-                    if len(str_value) > i+1 and str_value[i+1] != '5' and str_value[i+1] != '0':
-                        return 1
-            return 0
-
         if self.grade_choice == 0:
             msb.showwarning("Błąd", "Nie wybrano oceny.")
             return
         new_grade_value = askfloat(None, "Podaj nową wartość oceny")
         if new_grade_value == None:
             return
-        if new_grade_value > 5 or new_grade_value < 2 or too_much_precision(new_grade_value):
+        if new_grade_value > 5 or new_grade_value < 2 or not (new_grade_value*2).is_integer():
             msb.showwarning("Błąd", "Wprowadzona wartość oceny jest nieprawidłowa.")
             return
         sesja.query(Grade).filter(Grade.id == self.grade_choice.id).update({Grade.value: new_grade_value})
@@ -114,8 +103,8 @@ class Grade_Add(tk.Frame):
         self.value_entry = tk.Entry(self, font=("Calibri", 12))
         self.value_entry.grid(row = 3, columnspan = 2, sticky=N+E+S+W)
 
-        tk.Button(self, text="Zapisz", command=self.save, font=("Calibri", 10)).grid(row = 4, column = 1, sticky=N+E+S+W)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 4, column = 0, sticky=N+E+S+W)
+        tk.Button(self, text="Zapisz", command=self.save, font=("Calibri", 10)).grid(row = 4, column = 1, sticky=N+E+S+W, pady=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = 4, column = 0, sticky=N+E+S+W, pady=3)
 
         for i in range(0, 2):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
@@ -126,16 +115,6 @@ class Grade_Add(tk.Frame):
         self.category_choice = int_choice[0]
 
     def save(self):
-
-        def too_much_precision(value):
-            str_value = str(value)
-            for i in range(len(str_value)):
-                if str_value[i] == '.':
-                    if i+1 < len(str_value)-1:
-                        return 1
-                    if len(str_value) > i+1 and str_value[i+1] != '5' and str_value[i+1] != '0':
-                        return 1
-            return 0
 
         value_str = self.value_entry.get()
         if len(value_str) == 0:
@@ -148,7 +127,7 @@ class Grade_Add(tk.Frame):
             msb.showwarning("Błąd", "Wprowadzona wartość oceny jest nieprawidłowa.")
             return
 
-        if value_float > 5 or value_float < 2 or too_much_precision(value_float):
+        if value_float > 5 or value_float < 2 or not (value_float*2).is_integer():
             msb.showwarning("Błąd", "Wprowadzona wartość oceny jest nieprawidłowa.")
             return
 

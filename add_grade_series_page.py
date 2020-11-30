@@ -43,8 +43,8 @@ class AddGradeSeries(tk.Frame):
             cell[1].grid(row = i+2, column = 3, sticky=N+E+S+W)
             self.cells.append(cell)
 
-        save_button = tk.Button(self, text="Zapisz", command=self.save, font=("Calibri", 10)).grid(row = self.y+2, column = 2, columnspan=2, sticky=N+E+S+W)
-        back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = self.y+2, column = 0, columnspan=2, sticky=N+E+S+W)
+        save_button = tk.Button(self, text="Zapisz", command=self.save, font=("Calibri", 10)).grid(row = self.y+2, column = 2, columnspan=2, sticky=N+E+S+W, pady=3)
+        back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = self.y+2, column = 0, columnspan=2, sticky=N+E+S+W, pady=3)
 
         for i in range(0, 4):
             self.grid_columnconfigure(i, weight = 1, uniform=True)
@@ -56,16 +56,6 @@ class AddGradeSeries(tk.Frame):
 
     def save(self):
 
-        def too_much_precision(value):
-            str_value = str(value)
-            for i in range(len(str_value)):
-                if str_value[i] == '.':
-                    if i+1 < len(str_value)-1:
-                        return 1
-                    if len(str_value) > i+1 and str_value[i+1] != '5' and str_value[i+1] != '0':
-                        return 1
-            return 0
-        
         for cell in self.cells:
             value_str = cell[1].get()
             if len(value_str) > 0:
@@ -76,7 +66,7 @@ class AddGradeSeries(tk.Frame):
                     msb.showwarning("Błąd", "Wprowadzona wartość oceny jest nieprawidłowa.")
                     return
 
-                if value_float > 5 or value_float < 2 or too_much_precision(value_float):
+                if value_float > 5 or value_float < 2 or not (value_float*2).is_integer():
                     msb.showwarning("Błąd", "Wprowadzona wartość oceny jest nieprawidłowa.")
                     return
         

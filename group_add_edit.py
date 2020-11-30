@@ -12,8 +12,8 @@ class Group_Add(tk.Frame):
         self.master = master
         self.subject = subject
 
-        tk.Button(self, text="Zapisz", command = self.save).grid(row = 2, column=1, sticky=N+E+S+W)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back()).grid(row = 2, column=0, sticky=N+E+S+W)
+        tk.Button(self, text="Zapisz", command = self.save).grid(row = 2, column=1, sticky=N+E+S+W, pady=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back()).grid(row = 2, column=0, sticky=N+E+S+W, pady=3)
 
         for i in range(0, 2):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
@@ -45,8 +45,8 @@ class Group_Edit(tk.Frame):
         self.master = master
         self.group = group
 
-        tk.Button(self, text="Zapisz", command = self.save).grid(row = 2, column=1, sticky=N+E+S+W)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back()).grid(row = 2, column=0, sticky=N+E+S+W)
+        tk.Button(self, text="Zapisz", command = self.save).grid(row = 2, column=1, sticky=N+E+S+W, pady=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back()).grid(row = 2, column=0, sticky=N+E+S+W, pady=3)
 
         for i in range(0, 2):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
