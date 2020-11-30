@@ -1,20 +1,21 @@
 from Baza import sesja, Subject, Group, SubjectGroup, Grade, GradeCategory, Student
 import tkinter as tk
 import tkinter.ttk as ttk
+from tkinter import*
 from tkinter import messagebox as msb
 
 class AddGradeSeries(tk.Frame):
     def __init__(self, master, group, subject):
         tk.Frame.__init__(self, master)
-        label_1 = tk.Label(self, text="Wybierz kategorię")
-        label_1.grid(row = 0, column = 0)
+        label_1 = tk.Label(self, text="Wybierz kategorię", font=("Calibri", 12))
+        label_1.grid(row = 0, columnspan = 4, sticky=N+E+S+W)
         self.group = group
         self.subject = subject
         self.master = master
 
         self.cb_value = tk.StringVar()     
-        self.combobox_grade_categories = ttk.Combobox(self, textvariable = self.cb_value, state="readonly")
-        self.combobox_grade_categories.grid(row = 1, column = 0)
+        self.combobox_grade_categories = ttk.Combobox(self, textvariable = self.cb_value, state="readonly", font=("Calibri", 12))
+        self.combobox_grade_categories.grid(row = 1, columnspan=4, sticky=N+E+S+W)
         grade_categories_obj = []
         grade_categories = []
         for category in sesja.query(GradeCategory).all():
@@ -34,18 +35,19 @@ class AddGradeSeries(tk.Frame):
 
         for i in range(0, self.y):
             cell = [0, 1]
-            cell[0] = tk.Entry(self, width=40)
+            cell[0] = tk.Entry(self, width=40, font=("Calibri", 12))
             cell[0].insert(tk.END, (self.student_obj_list[i].last_name + " " + self.student_obj_list[i].first_name))
             cell[0].configure(state='disabled')
-            cell[0].grid(row = i+2, column = 0)
-            cell[1] = tk.Entry(self, width=10)
-            cell[1].grid(row = i+2, column = 1)
+            cell[0].grid(row = i+2, column = 0, columnspan=3, sticky=N+E+S+W)
+            cell[1] = tk.Entry(self, width=10, font=("Calibri", 12))
+            cell[1].grid(row = i+2, column = 3, sticky=N+E+S+W)
             self.cells.append(cell)
 
-        save_button = tk.Button(self, text="Zapisz", command=self.save)
-        save_button.grid(row = self.y+2, column = 0)
-        back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back())
-        back_button.grid(row = self.y+3, column = 0)
+        save_button = tk.Button(self, text="Zapisz", command=self.save, font=("Calibri", 10)).grid(row = self.y+2, column = 2, columnspan=2, sticky=N+E+S+W)
+        back_button = tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10)).grid(row = self.y+2, column = 0, columnspan=2, sticky=N+E+S+W)
+
+        for i in range(0, 4):
+            self.grid_columnconfigure(i, weight = 1, uniform=True)
 
     def select_category(self, event):
         str_choice = self.cb_value.get()
