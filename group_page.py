@@ -2,24 +2,19 @@ from Baza import sesja, Subject, Group, SubjectGroup
 from group_add_edit import Group_Add, Group_Edit
 from student_array_page import Students_array
 import tkinter as tk
+from tkinter import*
 from tkinter import messagebox as msb
-
-def unpack(group_list):
-    finally_list = []
-    for i in group_list:
-        finally_list.append(i[0])
-    return finally_list
 
 class Group_Choice(tk.Frame):
     def __init__(self, master, subject):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text=subject.name, font = 2).pack(side="top", fill="x", anchor = 'w')
-        tk.Label(self, text="Grupy:").pack(fill="x", pady=2, anchor = 'w')
+        tk.Label(self, text=subject.name, font = ("Calibri", 16)).grid(row = 0, columnspan=6, sticky=N+E+S+W)
+        tk.Label(self, text="Grupy:", font = ("Calibri", 15)).grid(row = 1, columnspan=6, sticky=N+E+S+W)
         self.subject = subject
-        self.group_list = tk.Listbox(self, font = 2)
+        self.group_list = tk.Listbox(self, font = ("Calibri", 14), width=100)
         self.group_list_object = []
         self.load_group()
-        self.group_list.pack(anchor = 'w')
+        self.group_list.grid(row = 2, columnspan=6, sticky=N+E+S+W)
 
         self.group_choice = 0
         def GroupSelect(event):
@@ -33,14 +28,16 @@ class Group_Choice(tk.Frame):
         self.group_list.bind('<<ListboxSelect>>', GroupSelect)
         self.group_list.bind('<Double-1>', SubjectOpen)
 
-        tk.Button(self, text="Otwórz", command= self.try_open).pack()
-        tk.Button(self, text="Dodaj grupę", command=lambda: master.navigate_to(Group_Add, subject)).pack()
-        tk.Button(self, text="Edytuj", command= self.try_edit).pack()
-        tk.Button(self, text="Usuń grupę z tego przedmiotu", command=self.delete_subject_here).pack()
-        tk.Button(self, text="Usuń grupę całkowicie", command=self.delete_subject_everywhere).pack()
+        tk.Button(self, text="Otwórz", command= self.try_open, height=2).grid(row = 3, column=0, columnspan=2, sticky=N+E+S+W)
+        tk.Button(self, text="Dodaj grupę", command=lambda: master.navigate_to(Group_Add, subject), height=2).grid(row = 3, column=4, columnspan=2, sticky=N+E+S+W)
+        tk.Button(self, text="Edytuj", command= self.try_edit, height=2).grid(row = 3, column=2, columnspan=2, sticky=N+E+S+W)
+        tk.Button(self, text="Usuń grupę z tego przedmiotu", command=self.delete_subject_here, height=2).grid(row = 4, column=0, columnspan=3, sticky=N+E+S+W)
+        tk.Button(self, text="Usuń grupę całkowicie", command=self.delete_subject_everywhere, height=2).grid(row = 4, column=3, columnspan=3, sticky=N+E+S+W)
            
-        tk.Button(self, text="Wróć", command=lambda: master.go_back()).pack()
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height=2).grid(row = 5, column=0, columnspan=2, sticky=N+E+S+W)
 
+        for i in range(0, 6):
+            self.grid_columnconfigure(i, weight = 2, uniform=True)
 
     def load_group(self):
         i = 0
