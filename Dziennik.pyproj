@@ -28,6 +28,9 @@
     <Compile Include="Dziennik.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="grade_add_edit.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="grade_manager_page.py">
       <SubType>Code</SubType>
     </Compile>
