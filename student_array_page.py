@@ -53,11 +53,14 @@ class Students_array(tk.Frame):
                 e = tk.Text(self, height = 2)
                 e.grid(row=i, column=x, sticky=N+E+S+W)
                 student_grades = []
-                for grade in sesja.query(Grade.value).filter(Grade.student_id == self.students_obj_list[i-2].id, Grade.subject_id == self.subject.id):
-                    student_grades.append(grade.value)
                 iAverage = 0.0
-                if len(student_grades) > 0:
-                    iAverage = round(sum(student_grades)/len(student_grades), 2)
+                iSum = 0.0
+                iQuantity = 0
+                for grade in sesja.query(Grade).filter(Grade.student_id == self.students_obj_list[i-2].id, Grade.subject_id == self.subject.id):
+                    iSum += grade.value * grade.weight
+                    iQuantity += grade.weight
+                if iQuantity > 0:
+                    iAverage = round((iSum / iQuantity), 2)
                 e.insert(tk.END, iAverage)
                 e.config(state='disabled')
 
