@@ -8,7 +8,7 @@ from tkinter import messagebox as msb
 class Grade_Manager(tk.Frame):
     def __init__(self, master, student, subject):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text= ("Oceny studenta: " + student.last_name + " " + student.first_name), font=("Calibri", 16)).grid(row = 0, columnspan = 3, sticky=N+S+W)
+        tk.Label(self, text= ("Oceny studenta: " + student.last_name + " " + student.first_name), font=("Calibri", 16)).grid(row = 0, columnspan = 3, sticky=N + S + W)
         self.student = student
         self.subject = subject
 
@@ -29,10 +29,10 @@ class Grade_Manager(tk.Frame):
         self.grade_list.bind('<<ListboxSelect>>', GradeSelect)
         self.grade_list.bind('<Double-1>', GradeEdit)
 
-        tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Grade_Add, self.student, self.subject), font=("Calibri", 10)).grid(row = 2, column = 0, sticky=N+E+S+W, pady=3, padx=3)
-        tk.Button(self, text="Edytuj", command= self.try_edit, font=("Calibri", 10), height = 2).grid(row = 2, column = 1, sticky=N+E+S+W, pady=3, padx=3)
-        tk.Button(self, text="Usuń", command= self.try_delete, font=("Calibri", 10), height = 2).grid(row = 2, column = 2, sticky=N+E+S+W, pady=3, padx=3)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height = 2).grid(row = 3, column = 0, sticky=N+E+S+W, pady=3, padx=3)
+        tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Grade_Add, self.student, self.subject), font=("Calibri", 10)).grid(row = 2, column = 0, sticky=N + E + S + W, pady=3, padx=3)
+        tk.Button(self, text="Edytuj", command= self.try_edit, font=("Calibri", 10), height = 2).grid(row = 2, column = 1, sticky=N + E + S + W, pady=3, padx=3)
+        tk.Button(self, text="Usuń", command= self.try_delete, font=("Calibri", 10), height = 2).grid(row = 2, column = 2, sticky=N + E + S + W, pady=3, padx=3)
+        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height = 2).grid(row = 3, column = 0, sticky=N + E + S + W, pady=3, padx=3)
 
         for i in range(0, 3):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
@@ -58,8 +58,8 @@ class Grade_Manager(tk.Frame):
         if not self.grade_choice:
             msb.showinfo(None, "Nie wybrano oceny do usunięcia.")
             return
-        if msb.askokcancel(None, ("Na pewno chcesz usunąć?") ):
-            sesja.query(Grade).filter(Grade.id==self.grade_choice.id).delete()
+        if msb.askokcancel(None, ("Na pewno chcesz usunąć?")):
+            sesja.query(Grade).filter(Grade.id == self.grade_choice.id).delete()
             self.load_grade()
             self.grade_choice = 0
             sesja.commit()
