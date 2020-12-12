@@ -64,6 +64,7 @@ class Grade(BazaModel):
     __tablename__ = 'Grades'
     id = Column(Integer, primary_key = True)
     value = Column(Float, nullable=False)
+    weight = Column(Integer, nullable=False)
 
     grade_category_id = Column(Integer, ForeignKey('GradeCategories.id'))
     grade_category = relationship('GradeCategory', back_populates='grades')

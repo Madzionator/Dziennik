@@ -26,7 +26,7 @@ class Grade_Add(tk.Frame):
         self.category_choice = 1
         self.combobox_grade_categories.bind("<<ComboboxSelected>>", self.select_category)
 
-        self.scale = Scale(self, from_ = 1, to = 10,  orient = HORIZONTAL, font=("Calibri", 12))
+        self.scale = Scale(self, from_ = 1, to = 10,  orient = HORIZONTAL, font=("Calibri", 12), tickinterval= 9)
         self.scale.grid(row = 4, columnspan = 2, sticky=N+E+S+W)   
 
         tk.Label(self, text="Podaj ocenę", font=("Calibri", 12)).grid(row = 5, columnspan = 2, sticky=N+E+S+W)
@@ -62,10 +62,7 @@ class Grade_Add(tk.Frame):
             return
        
         grade_weight = self.scale.get()
-        print (grade_weight)    ########################
-
-        #### Add weight to base
-        sesja.add(Grade(value = value_float, grade_category_id = self.category_choice, student_id = self.student.id, subject_id = self.subject.id))
+        sesja.add(Grade(value = value_float, weight = grade_weight, grade_category_id = self.category_choice, student_id = self.student.id, subject_id = self.subject.id))
         sesja.commit()
         self.master.go_back()
         
@@ -92,7 +89,8 @@ class Grade_Edit(tk.Frame):
         self.category_choice = grade.grade_category_id
         self.combobox_grade_categories.bind("<<ComboboxSelected>>", self.select_category)
 
-        self.scale = Scale(self, from_ = 1, to = 10,  orient = HORIZONTAL, font=("Calibri", 12))
+        self.scale = Scale(self, from_ = 1, to = 10,  orient = HORIZONTAL, font=("Calibri", 12), tickinterval= 9)
+        self.scale.set(grade.weight)
         self.scale.grid(row = 4, columnspan = 2, sticky=N+E+S+W)   
 
         tk.Label(self, text="Zmień ocenę", font=("Calibri", 12)).grid(row = 5, columnspan = 2, sticky=N+E+S+W)
@@ -129,9 +127,6 @@ class Grade_Edit(tk.Frame):
             return
        
         grade_weight = self.scale.get()
-        print (grade_weight)    ########################
-
-        #### Add weight to base
-        sesja.query(Grade).filter(Grade.id == self.grade.id).update({Grade.value: new_grade_value, Grade.grade_category_id: self.category_choice})
+        sesja.query(Grade).filter(Grade.id == self.grade.id).update({Grade.value: new_grade_value, Grade.grade_category_id: self.category_choice, Grade.weight: grade_weight})
         sesja.commit()
         self.master.go_back()
