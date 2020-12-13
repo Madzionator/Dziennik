@@ -50,7 +50,7 @@ class Subject_Add(tk.Frame):
         elif len(name_str) > 100:
             msb.showwarning("Błąd", "Wprowadzona nazwa jest za długa.")
             return
-        exists = sesja.query(Subject.name).filter_by(name = name_str).scalar() # None
+        exists = sesja.query(Subject.name).filter_by(name = name_str).scalar()
         if exists:
             msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
         else:
@@ -112,7 +112,7 @@ class Subject_Edit(tk.Frame):
             msb.showwarning("Błąd", "Wprowadzona nazwa jest za długa.")
             return
         if name_str != self.subject.name:
-            exists = sesja.query(Subject.name).filter_by(name = name_str).scalar() # None
+            exists = sesja.query(Subject.name).filter_by(name = name_str).scalar()
             if exists:
                 msb.showwarning("Błąd", "Podana nazwa jest już zajęta.")
                 return        
