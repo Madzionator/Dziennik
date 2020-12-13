@@ -29,10 +29,10 @@ class Grade_Manager(tk.Frame):
         self.grade_list.bind('<<ListboxSelect>>', GradeSelect)
         self.grade_list.bind('<Double-1>', GradeEdit)
 
-        tk.Button(self, text="Dodaj", command=lambda: self.master.navigate_to(Grade_Add, self.student, self.subject), font=("Calibri", 10)).grid(row = 2, column = 0, sticky=N + E + S + W, pady=3, padx=3)
-        tk.Button(self, text="Edytuj", command= self.try_edit, font=("Calibri", 10), height = 2).grid(row = 2, column = 1, sticky=N + E + S + W, pady=3, padx=3)
-        tk.Button(self, text="Usuń", command= self.try_delete, font=("Calibri", 10), height = 2).grid(row = 2, column = 2, sticky=N + E + S + W, pady=3, padx=3)
-        tk.Button(self, text="Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height = 2).grid(row = 3, column = 0, sticky=N + E + S + W, pady=3, padx=3)
+        tk.Button(self, text="➕ Dodaj ocenę", command=lambda: self.master.navigate_to(Grade_Add, self.student, self.subject), font=("Calibri", 10)).grid(row = 2, column = 0, sticky=N + E + S + W, pady=3, padx=3)
+        tk.Button(self, text="✏ Edytuj ocenę", command= self.try_edit, font=("Calibri", 10), height = 2).grid(row = 2, column = 1, sticky=N + E + S + W, pady=3, padx=3)
+        tk.Button(self, text="❌ Usuń ocenę", command= self.try_delete, font=("Calibri", 10), height = 2).grid(row = 2, column = 2, sticky=N + E + S + W, pady=3, padx=3)
+        tk.Button(self, text="⬅ Wróć", command=lambda: master.go_back(), font=("Calibri", 10), height = 2).grid(row = 3, column = 0, sticky=N + E + S + W, pady=3, padx=3)
 
         for i in range(0, 3):
             self.grid_columnconfigure(i, weight = 2, uniform=True)
@@ -64,7 +64,7 @@ class Grade_Manager(tk.Frame):
             self.grade_choice = 0
             sesja.commit()
 
-    def try_edit(self): # to do !!!
+    def try_edit(self):
         if self.grade_choice == 0:
             msb.showwarning("Błąd", "Nie wybrano oceny.")
             return

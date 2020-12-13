@@ -19,7 +19,7 @@ class Application(tk.Tk):
         self.current_frame = None
         self.navigate_to(StartPage)
 
-    def navigate_to(self, frame_class, arg = None, arg2 = None, arg3 = None):
+    def navigate_to(self, frame_class, arg=None, arg2=None, arg3=None):
         if self.current_frame is not None:
             self.current_frame.destroy()
 

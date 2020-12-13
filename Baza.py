@@ -1,6 +1,5 @@
-#! /usr/bin/env python3
+#!  /usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 import os
 from sqlalchemy import Column, ForeignKey, Integer, Table, String, Float, create_engine
 from sqlalchemy.ext.declarative import declarative_base
